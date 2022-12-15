@@ -1,0 +1,12 @@
+.page{
+    background-color: black;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    max-width: 880px;
+}
+
+.page__content{
+    margin-left: 200px;
+    margin-right: 200px;
+}
