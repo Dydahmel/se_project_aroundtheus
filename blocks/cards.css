@@ -1,14 +1,15 @@
 .cards{
     padding-top: 47px;
-    
+    margin: 0 auto;       
 }
 .card__list{
     list-style-type: none;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, 282px);
     grid-gap: 20px 17px;
+    justify-content: center;
 }
 
 .card{
@@ -55,4 +56,9 @@
     line-height: 29px;
     letter-spacing: 0em;
     text-align: left;  
+}
+
+.card__like-button:hover{
+    opacity: 0.5;
+    cursor: pointer;
 }
