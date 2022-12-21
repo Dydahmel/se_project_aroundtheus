@@ -1,7 +1,8 @@
 .profile{
     display: flex;
     align-items: center;
-    padding-top: 40px;    
+    padding-top: 40px;
+    margin: 0 auto;    
 }
 
 .profile__description{
@@ -12,6 +13,7 @@
     grid-template-columns: minmax(auto, 373px) auto;
     grid-row-gap: 16px;
     grid-column-gap: 18px;
+    align-items: center;
 }
 
 .profile__edit-button{
@@ -19,22 +21,25 @@
     border: 1px solid #ffffff;
     height: 24px;
     width: 24px;
-    grid-area: button;    
+    grid-area: button; 
+    transition: 0.3s ease-in;    
        
 }
 
 .profile__add-button{
-    background: transparent url(../images/Add_Button.png) center no-repeat;    
+    background: transparent url(../images/Add_button_test.png) center no-repeat;    
     width: 150px;
     height: 50px;
     margin-left: auto;
+    transition: 0.3s ease-in;
+    border: 1px solid #ffffff;
 }
 
 .profile__title{
     font-family: "Inter";
     font-size: 42px;
     font-weight: 500;
-    line-height: 48px;      
+    line-height: 1.2;
     grid-area: title;
     margin: 0;    
     letter-spacing: 0em;
@@ -45,10 +50,10 @@
 .profile__subtitle{    
     font-size: 18px;
     font-weight: 400;
-    line-height: 22px;   
+    line-height: 1.2;   
     grid-area: subtitle;
     margin: 0;
-    font-family: 'Inter';
+    font-family: 'Inter', Arial, sans-serif;
     letter-spacing: 0em;
     text-align: left;
 
@@ -71,7 +76,7 @@
 
 .profile__add-button:hover{
     opacity: 0.6; 
-    cursor: pointer;
+    cursor: pointer;    
 }
 
 @media screen and (max-width:480px){
@@ -90,23 +95,23 @@
     .profile__subtitle{
         width: 100%;
         text-align: center;
-        font-family: 'Inter';
+        font-family: 'Inter', Arial, sans-serif;
         font-size: 14px;
         font-weight: 400;
-        line-height: 17px;
+        line-height: 1.2;
         letter-spacing: 0em;
     }
 
     .profile__add-button{
         margin: 0;
-        width: 100%;        
+        width: 100%;              
     }
 
     .profile__title{
-        font-family: 'Inter';
+        font-family: 'Inter', Arial, sans-serif;
         font-size: 22px;
         font-weight: 500;
-        line-height: 27px;
+        line-height: 1.2;
         letter-spacing: 0em;
         text-align: center;
 
