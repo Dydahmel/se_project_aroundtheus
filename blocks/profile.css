@@ -21,7 +21,7 @@
     border: 1px solid #ffffff;
     height: 24px;
     width: 24px;
-    grid-area: button;
+    grid-area: button; 
     transition: 0.3s ease-in;
 }
 
@@ -74,7 +74,7 @@
 }
 
 .profile__add-button:hover{
-    opacity: 0.6;
+    opacity: 0.6; 
     cursor: pointer;
 }
 
