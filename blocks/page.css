@@ -2,7 +2,7 @@
     background-color: black;
     color: #ffffff;
     margin: 0;
-    padding: 0;    
+    padding: 0;
 }
 
 .page__content{
@@ -14,12 +14,12 @@
 .page__section{
     max-width: 880px;
     width: 100%;
-    margin: 0 auto;    
+    margin: 0 auto;
 }
 
 @media screen and (max-width: 880px){
 
-    .page__content{        
+    .page__content{
         padding-left: 20px;
         padding-right: 20px;
     }
