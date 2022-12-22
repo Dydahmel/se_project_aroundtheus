@@ -7,3 +7,4 @@ Functionality: grid layout, grid columns, responsitive layout.
 
 
 This is my 3rd project at Practicum platform. 
+https://github.com/Dydahmel/se_project_aroundtheus.git
