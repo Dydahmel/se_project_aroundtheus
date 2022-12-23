@@ -14,10 +14,11 @@
     grid-row-gap: 16px;
     grid-column-gap: 18px;
     align-items: center;
+    padding-right: 16px;
 }
 
 .profile__edit-button{
-    background: transparent url(../images/Edit_Button.png) center no-repeat;
+    background: transparent url(../images/Edit_button.svg) center no-repeat;
     border: 1px solid #ffffff;
     height: 24px;
     width: 24px;
@@ -26,16 +27,17 @@
 }
 
 .profile__add-button{
-    background: transparent url(../images/Add_button_test.png) center no-repeat;
+    background: transparent url(../images/Add_button.svg) center no-repeat;
     width: 150px;
     height: 50px;
     margin-left: auto;
     transition: 0.3s ease-in;
-    border: 1px solid #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 2px;
 }
 
 .profile__title{
-    font-family: "Inter";
+    font-family: 'Inter', Arial, sans-serif;
     font-size: 42px;
     font-weight: 500;
     line-height: 1.2;
@@ -43,6 +45,9 @@
     margin: 0;
     letter-spacing: 0em;
     text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 
 }
 
@@ -55,6 +60,9 @@
     font-family: 'Inter', Arial, sans-serif;
     letter-spacing: 0em;
     text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 
 }
 
@@ -88,35 +96,36 @@
         flex-wrap: wrap;
         width: 100%;
         justify-content: center;
-        align-items: center;
+        margin-top: 26px;
+        grid-row-gap: 14px;
+        grid-column-gap: 10px;
     }
 
     .profile__subtitle{
         width: 100%;
         text-align: center;
-        font-family: 'Inter', Arial, sans-serif;
         font-size: 14px;
-        font-weight: 400;
-        line-height: 1.2;
-        letter-spacing: 0em;
+        
     }
 
     .profile__add-button{
         margin: 0;
         width: 100%;
+        margin-top: 36px;
+        margin-bottom: 36px;
     }
 
     .profile__title{
-        font-family: 'Inter', Arial, sans-serif;
         font-size: 22px;
-        font-weight: 500;
-        line-height: 1.2;
-        letter-spacing: 0em;
         text-align: center;
     }
 
     .profile__edit-button{
         height: 18px;
         width: 18px;
+    }
+
+    .profile__picture{
+        margin:0;
     }
 }

@@ -1,6 +1,6 @@
 .header{
     margin-top: 45px;
-    border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+    position: relative;
 }
 
 .header__logo{
@@ -9,3 +9,27 @@
     margin-bottom: 41px;
 }
 
+.header::after{
+    content: '';
+    width: 100%;
+    border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 1;
+
+}
+
+@media screen and (max-width: 900px) {
+    .header__logo{
+        margin-left: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .header__logo{
+        width: 126px;
+        height: 24px;
+        margin-bottom: 32px;
+    }    
+}

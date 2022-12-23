@@ -19,4 +19,8 @@
         padding-top: 48px;
         padding-bottom: 36px;
     }
+
+    .footer__copyright{
+        font-size: 14px;
+    }
 }
