@@ -11,3 +11,10 @@
     grid-gap: 20px 17px;
     justify-content: center;
 }
+
+@media screen and (max-width: 640px) {
+    .cards{
+        padding:0;
+    }
+    
+}
