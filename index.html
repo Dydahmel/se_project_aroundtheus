@@ -26,13 +26,16 @@
                         <h1 class="profile__title">
                             Jacques Cousteau
                         </h1>
-                        <button type="button" class="profile__edit-button">                        
+                        <button type="button" 
+                        class="profile__edit-button"
+                        id="profile__edit-btn">                        
                         </button>
                         <p class="profile__subtitle">
                             Explorer
                         </p>
                     </div>
-                    <button type="button" class="profile__add-button"></button>
+                    <button type="button" 
+                    class="profile__add-button"></button>
                 </section>
                 <section class="cards page__section">
                     <ul class="cards__list">
@@ -101,9 +104,11 @@
             </footer>
         </div>
 
-        <div class="modal">
+        <div class="modal" id="profile__edit-modal">
             <div class="modal__container">
-                <button class="modal__close-button"></button>
+                <button class="modal__close-button" 
+                type="button"
+                id="profile__close-button"></button>
                 <p class="modal__heading">
                     Edit profile
                 </p>

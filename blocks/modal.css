@@ -7,10 +7,14 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
     padding: 0 19px;
-    display: flex;
+    display: none;
     color: black;
     font-family: 'Inter', arial, sans-serif;
 
+}
+
+.modal__opened{
+    display: flex;
 }
 
 .modal__container{
