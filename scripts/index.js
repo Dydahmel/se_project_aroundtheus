@@ -28,15 +28,50 @@ const initialCards = [
 const profileEditBtn = document.querySelector('#profile__edit-btn');
 const profileEditModal = document.querySelector('#profile__edit-modal');
 const profileCloseBtn = document.querySelector('#profile__close-button');
+const profileName = document.querySelector('.profile__title');
+const profileJob = document.querySelector('.profile__subtitle');
+const profileNameInput = document.querySelector('#profile__title-input');
+const profileJobInput = document.querySelector('#profile__subtitle-input');
+const profileEditForm = profileEditModal.querySelector('.modal__form');
+const cardListEl = document.querySelector('.cards__list')
+const cardTemplate = document.querySelector('#card__template').content.firstElementChild;
 
+function closePop(){
+  profileEditModal.classList.remove('modal__opened');
+}
+
+function profileSubmit(event){
+  event.preventDefault();
+  profileName.textContent = profileNameInput.value;
+  profileJob.textContent = profileJobInput.value;
+  closePop();
+}
+
+function getCardElement(cardData){
+  const cardElement = cardTemplate.cloneNode(true);
+  const cardImageEl = cardElement.querySelector('.card__image');
+  const cardTitleEl = cardElement.querySelector('.card__title');
+  cardTitleEl.textContent = cardData.name;
+  cardImageEl.alt = cardData.name;
+  cardImageEl.src = cardData.link;
+  return cardElement;
+}
 
 profileEditBtn.addEventListener('click', () => {
+  profileNameInput.value = profileName.textContent;
+  profileJobInput.value = profileJob.textContent;
   profileEditModal.classList.add('modal__opened')
 })
 
-profileCloseBtn.addEventListener('click', () => {
-  profileEditModal.classList.remove('modal__opened')
+profileCloseBtn.addEventListener('click', () => { 
+  closePop();
 })
 
+profileEditForm.addEventListener('submit', profileSubmit);
 
 
+
+initialCards.forEach((cardData)  => {
+  const cardElement = getCardElement(cardData)
+  cardListEl.append(cardElement);
+})
