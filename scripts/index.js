@@ -87,9 +87,8 @@ profileAddCloseBtn.addEventListener('click', () => closePopup(profileAddModal));
 
 profileEditForm.addEventListener('submit', handleProfileFormSubmit);
 
-profileAddBtn.addEventListener('click', () => {
-  openPopup(profileAddModal);
-});
+profileAddBtn.addEventListener('click', () => openPopup(profileAddModal));
+
 
 
 addCardForm.addEventListener('submit', (event) =>{
