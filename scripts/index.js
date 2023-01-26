@@ -52,27 +52,41 @@ function closePopup(modal){
 
 function openPopup(modal){
   modal.classList.add('modal_opened');
-}
+};
 
 function handleProfileFormSubmit(event){
   event.preventDefault();
   profileName.textContent = profileNameInput.value;
   profileJob.textContent = profileJobInput.value;
   closePopup(profileEditModal);
-}
+};
 
 function renderCard(cardElement, container){
-  container.append(cardElement);
+  container.prepend(cardElement);
+};
+
+function likeBtnClicked(element){
+  element.classList.toggle('card__like-button_enabled');
+};
+
+function removeCard(element){
+  element.remove();
 }
 
 function getCardElement(cardData){
   const cardElement = cardTemplate.cloneNode(true);
   const cardImageEl = cardElement.querySelector('.card__image');
+  const cardLikeBtn = cardElement.querySelector('#card_like-button');
   const cardTitleEl = cardElement.querySelector('.card__title');
+  const cardDeleteBtn = cardElement.querySelector('.card__delete-btn');
   cardTitleEl.textContent = cardData.name;
   cardImageEl.alt = cardData.name;
   cardImageEl.src = cardData.link;
-  return cardElement;
+
+  cardDeleteBtn.addEventListener('click', () => removeCard(cardElement));
+  cardLikeBtn.addEventListener('click', () => likeBtnClicked(cardLikeBtn));
+
+  return cardElement;  
 }
 
 profileEditBtn.addEventListener('click', () => {
@@ -91,6 +105,8 @@ profileAddBtn.addEventListener('click', () => openPopup(profileAddModal));
 
 
 
+
+
 addCardForm.addEventListener('submit', (event) =>{
   event.preventDefault();
   const name = event.target.title.value;
@@ -105,6 +121,5 @@ addCardForm.addEventListener('submit', (event) =>{
 
 initialCards.forEach((cardData)  => {
   const cardViev = getCardElement(cardData);
-  renderCard(cardViev, cardListEl);
-  
+  renderCard(cardViev, cardListEl);  
 })
