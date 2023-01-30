@@ -27,7 +27,6 @@ const initialCards = [
 
 const profileEditBtn = document.querySelector('#profile__edit-btn');
 const profileEditModal = document.querySelector('#profile__edit-modal');
-const profileCloseBtn = document.querySelector('#profile__close-button');
 const profileName = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__subtitle');
 const profileNameInput = document.querySelector('#profile__title-input');
@@ -37,14 +36,13 @@ const cardListEl = document.querySelector('.cards__list');
 const cardTemplate = document.querySelector('#card__template').content.firstElementChild;
 const profileAddModal = document.querySelector('#profile__add-modal');
 const profileAddBtn = document.querySelector('#profile__add-button');
-const profileAddCloseBtn = document.querySelector('#add__close-button');
 const addCardForm = profileAddModal.querySelector('.modal__form');
 const addCardTitleInput = document.querySelector('card__title-input');
 const addCardLinkInput = document.querySelector('card__link-input');
 const imageModal = document.querySelector('#card__image-modal');
-const imageModalCloseBtn = document.querySelector('#image__close-button');
 const modalImageEl = imageModal.querySelector(".modal__image");
 const modalImageCaption = imageModal.querySelector('.modal__image-caption');
+const closeBtns = document.querySelectorAll('.modal__close-button');
 
 
 
@@ -69,7 +67,7 @@ function renderCard(cardElement, container){
   container.prepend(cardElement);
 };
 
-function likeBtnClicked(element){
+function activateLikeBtn(element){
   element.classList.toggle('card__like-button_enabled');
 };
 
@@ -94,7 +92,7 @@ function getCardElement(cardData){
     openPopup(imageModal);
   })
   cardDeleteBtn.addEventListener('click', () => removeCard(cardElement));
-  cardLikeBtn.addEventListener('click', () => likeBtnClicked(cardLikeBtn));
+  cardLikeBtn.addEventListener('click', () => activateLikeBtn(cardLikeBtn));
 
 
   return cardElement;  
@@ -106,15 +104,18 @@ profileEditBtn.addEventListener('click', () => {
   openPopup(profileEditModal);
 })
 
-profileCloseBtn.addEventListener('click', () => closePopup(profileEditModal));
+closeBtns.forEach((button) => {
+  const modal = button.closest('.modal');
+  button.addEventListener('click',  () => closePopup(modal));
+});
 
-profileAddCloseBtn.addEventListener('click', () => closePopup(profileAddModal));
+
 
 profileEditForm.addEventListener('submit', handleProfileFormSubmit);
 
 profileAddBtn.addEventListener('click', () => openPopup(profileAddModal));
 
-imageModalCloseBtn.addEventListener('click', () => closePopup(imageModal));
+
 
 
 addCardForm.addEventListener('submit', (event) =>{
@@ -127,6 +128,7 @@ addCardForm.addEventListener('submit', (event) =>{
   })
   renderCard(cardViev, cardListEl);
   closePopup(profileAddModal);
+  event.target.reset();    
 })
 
 initialCards.forEach((cardData)  => {
