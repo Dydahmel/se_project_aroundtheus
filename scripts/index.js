@@ -67,7 +67,7 @@ function renderCard(cardElement, container){
   container.prepend(cardElement);
 };
 
-function activateLikeBtn(element){
+function toggleLikeBtn(element){
   element.classList.toggle('card__like-button_enabled');
 };
 
@@ -92,7 +92,7 @@ function getCardElement(cardData){
     openPopup(imageModal);
   })
   cardDeleteBtn.addEventListener('click', () => removeCard(cardElement));
-  cardLikeBtn.addEventListener('click', () => activateLikeBtn(cardLikeBtn));
+  cardLikeBtn.addEventListener('click', () => toggleLikeBtn(cardLikeBtn));
 
 
   return cardElement;  
