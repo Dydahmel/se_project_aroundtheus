@@ -118,6 +118,7 @@
 }
 
 .modal__save-button{
+    margin-top: 18px;
     background-color: #000;
     color: #fff;
     width: 100%;
@@ -138,6 +139,28 @@
 
 .modal__save-button:hover{
     opacity: 0.8;
+}
+
+.modal__input:invalid{
+    border-bottom: 1px solid red;
+    margin: 0;
+}
+
+.modal__input:valid{
+    border-bottom: 1px solid green;
+    margin: 0;
+}
+
+.modal__input_type_error{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.2;
+    color: red;
+    margin-top: 5px;
+    margin-bottom: 13px;
+
 }
 
 @media screen and (max-width: 660px) {

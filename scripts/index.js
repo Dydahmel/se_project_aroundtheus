@@ -43,6 +43,8 @@ const imageModal = document.querySelector('#card__image-modal');
 const modalImageEl = imageModal.querySelector(".modal__image");
 const modalImageCaption = imageModal.querySelector('.modal__image-caption');
 const closeBtns = document.querySelectorAll('.modal__close-button');
+const profileInputElements = profileEditForm.querySelectorAll('.modal__input');
+
 
 
 

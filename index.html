@@ -59,12 +59,22 @@
                     class="modal__title modal__input"
                     placeholder="Name"
                     name="title"
-                    id='profile__title-input'>                    
+                    id='profile__title-input'                    
+                    minlength="2"
+                    maxlength="40"
+                    required>
+                    <span class="modal__input_type_error"
+                    id="profile__title-input-error"></span>                    
                     <input type="text" 
                     class="modal__subtitle modal__input"
                     placeholder="Decription"
                     name="subtitle"
-                    id="profile__subtitle-input">
+                    id="profile__subtitle-input"                   
+                    minlength="2"
+                    maxlength="200"
+                    required>
+                    <span class="modal__input_type_error" 
+                    id="profile__subtitle-input-error"></span>
                     <button class="modal__save-button"
                     type="submit">Save</button>
                 </form>
@@ -83,12 +93,20 @@
                         class="modal__title modal__input"
                         placeholder="Title"
                         name="title"
-                        id='card__title-input'>                    
-                        <input type="text" 
+                        id='card__title-input'
+                        minlength="1"
+                        maxlength="30"
+                        required>
+                        <span class="modal__input_type_error"
+                        id="card__title-input-error"></span>                    
+                        <input type="url" 
                         class="modal__subtitle modal__input"
                         placeholder="Image URL"
                         name="link"
-                        id="card__link-input">
+                        id="card__link-input"                                               
+                        required>
+                        <span class="modal__input_type_error"
+                        id="card__link-input-error"></span>
                         <button class="modal__save-button"
                         type="submit">Save</button>
                     </form>
@@ -120,6 +138,7 @@
                 </div>
                 </li>
         </template>
-        <script src="./scripts/index.js"></script>    
+        <script src="./scripts/index.js"></script>
+        <script src="./scripts/validation.js"></script>    
     </body>
 </html>
