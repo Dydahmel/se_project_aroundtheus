@@ -28,6 +28,7 @@
     padding: 36px;
     border-radius: 10px;
     width: 430px;
+    max-height: 330px;
 
 }
 
@@ -118,19 +119,20 @@
 }
 
 .modal__save-button{
+    border: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: contain;
     margin-top: 18px;
-    background-color: #000;
-    color: #fff;
-    width: 100%;
+    background-image: url(../images/Save_btn_enablet.png);    
     border-radius: 2px;
-    height: 58px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    text-align: center;
-    line-height: 1.2;
+    height: 58px;    
     cursor: pointer;
     transition: ease-in 0.2s;
+    align-content: center;
+    width: 100%;
+    padding: 36px;
+    
 }
 
 .modal__close-button:hover{
@@ -161,6 +163,10 @@
     margin-top: 5px;
     margin-bottom: 13px;
 
+}
+
+.modal__save-button-disabled{
+    background-image: url(../images/Save_btn_disabled.png);
 }
 
 @media screen and (max-width: 660px) {

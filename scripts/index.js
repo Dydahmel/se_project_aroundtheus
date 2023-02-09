@@ -124,13 +124,15 @@ addCardForm.addEventListener('submit', (event) =>{
   event.preventDefault();
   const name = event.target.title.value;
   const link = event.target.link.value;
+  const button = addCardForm.querySelector(config.submitButtonSelector)
   const cardViev = getCardElement({
     name,
     link
   })
   renderCard(cardViev, cardListEl);
   closePopup(profileAddModal);
-  event.target.reset();    
+  event.target.reset();
+  disableSubmitBtn(button, config)    
 })
 
 initialCards.forEach((cardData)  => {
