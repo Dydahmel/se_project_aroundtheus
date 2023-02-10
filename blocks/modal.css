@@ -38,7 +38,7 @@
     max-height: 75vh;
     display: flex;
     width: auto;
-    height: auto;  
+    height: auto;
  }
 
  .modal__image{
@@ -55,7 +55,7 @@
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
-    margin: 0;    
+    margin: 0;
  }
 
 .modal__close-button{
@@ -86,7 +86,7 @@
 .modal__form{
     display: flex;
     flex-direction: column;
-    width: 100%;    
+    width: 100%;
 }
 
 .modal__input{ 
@@ -124,9 +124,9 @@
     background-repeat: no-repeat;
     background-size: contain;
     margin-top: 18px;
-    background-image: url(../images/Save_btn_enablet.png);    
+    background-image: url(../images/Save_btn_enablet.png);
     border-radius: 2px;
-    height: 58px;    
+    height: 58px;
     cursor: pointer;
     transition: ease-in 0.2s;
     align-content: center;
