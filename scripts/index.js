@@ -43,18 +43,30 @@ const imageModal = document.querySelector('#card__image-modal');
 const modalImageEl = imageModal.querySelector(".modal__image");
 const modalImageCaption = imageModal.querySelector('.modal__image-caption');
 const closeBtns = document.querySelectorAll('.modal__close-button');
-const profileInputElements = profileEditForm.querySelectorAll('.modal__input');
+
+
+
+
+function closeModalByEsc(evt){
+  if (evt.key === "Escape"){
+    const modalOpened = document.querySelector('.modal__opened')
+    closePopup(modalOpened)
+  }
+  
+}
 
 
 
 
 
 
-function closePopup(modal){
+function closePopup(modal){  
+  document.removeEventListener('keydown', closeModalByEsc);
   modal.classList.remove('modal_opened');  
 };
 
-function openPopup(modal){
+function openPopup(modal){  
+  document.addEventListener('keydown', closeModalByEsc);
   modal.classList.add('modal_opened');
 };
 
@@ -139,3 +151,4 @@ initialCards.forEach((cardData)  => {
   const cardViev = getCardElement(cardData);
   renderCard(cardViev, cardListEl);  
 })
+
