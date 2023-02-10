@@ -4,7 +4,7 @@ const config = {
     inputSelector: ".modal__input",
     submitButtonSelector: ".modal__save-button",
     inactiveButtonClass: "modal__save-button-disabled",
-    inputErrorClass: ".modal__input_type_error",
+    inputErrorClass: ".modal__input_type-error",
     errorClass: ".modal__error_visible"
   }; 
 
