@@ -43,20 +43,7 @@ const imageModal = document.querySelector('#card__image-modal');
 const modalImageEl = imageModal.querySelector(".modal__image");
 const modalImageCaption = imageModal.querySelector('.modal__image-caption');
 const closeBtns = document.querySelectorAll('.modal__close-button');
-
-
-
-
-function closeModalByEsc(evt){
-  if (evt.key === "Escape"){
-    const modalOpened = document.querySelector('.modal__opened')
-    closePopup(modalOpened)
-  }
-  
-}
-
-
-
+const allModals = document.querySelectorAll('.modal')
 
 
 
@@ -69,6 +56,21 @@ function openPopup(modal){
   document.addEventListener('keydown', closeModalByEsc);
   modal.classList.add('modal_opened');
 };
+
+function closeModalByEsc(evt){
+  if (evt.key === "Escape"){
+    const modalOpened = document.querySelector('.modal_opened');    
+    closePopup(modalOpened)
+  }  
+};
+
+function closeModalByClick(evt){
+  if(evt.target.classList.contains('modal')){
+    closePopup(evt.target)
+  }
+};
+
+
 
 function handleProfileFormSubmit(event){
   event.preventDefault();
@@ -123,6 +125,9 @@ closeBtns.forEach((button) => {
   button.addEventListener('click',  () => closePopup(modal));
 });
 
+allModals.forEach(modal => {
+  modal.addEventListener('click', closeModalByClick);  
+});
 
 
 profileEditForm.addEventListener('submit', handleProfileFormSubmit);
