@@ -42,8 +42,7 @@ const addCardLinkInput = document.querySelector('card__link-input');
 const imageModal = document.querySelector('#card__image-modal');
 const modalImageEl = imageModal.querySelector(".modal__image");
 const modalImageCaption = imageModal.querySelector('.modal__image-caption');
-const closeBtns = document.querySelectorAll('.modal__close-button');
-const allModals = document.querySelectorAll('.modal')
+const allModals = document.querySelectorAll('.modal');
 
 
 
@@ -62,12 +61,6 @@ function closeModalByEsc(evt){
     const modalOpened = document.querySelector('.modal_opened');    
     closePopup(modalOpened)
   }  
-};
-
-function closeModalByClick(evt){
-  if(evt.target.classList.contains('modal')){
-    closePopup(evt.target)
-  }
 };
 
 
@@ -118,15 +111,19 @@ profileEditBtn.addEventListener('click', () => {
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileJob.textContent;
   openPopup(profileEditModal);
-})
-
-closeBtns.forEach((button) => {
-  const modal = button.closest('.modal');
-  button.addEventListener('click',  () => closePopup(modal));
 });
 
-allModals.forEach(modal => {
-  modal.addEventListener('click', closeModalByClick);  
+// setting listeners
+//listener for closing All modals by click on overlay and close buttons
+allModals.forEach((modal) => {
+  modal.addEventListener('mousedown', (evt) =>{
+    if(evt.target.classList.contains('modal')){
+      closePopup(modal);
+    };
+    if (evt.target.classList.contains('modal__close-button')){
+      closePopup(modal)
+    }
+  } );  
 });
 
 
@@ -140,16 +137,14 @@ profileAddBtn.addEventListener('click', () => openPopup(profileAddModal));
 addCardForm.addEventListener('submit', (event) =>{
   event.preventDefault();
   const name = event.target.title.value;
-  const link = event.target.link.value;
-  const button = addCardForm.querySelector(config.submitButtonSelector)
+  const link = event.target.link.value;  
   const cardViev = getCardElement({
     name,
     link
   })
   renderCard(cardViev, cardListEl);
   closePopup(profileAddModal);
-  event.target.reset();
-  disableSubmitBtn(button, config)    
+  event.target.reset();  
 })
 
 initialCards.forEach((cardData)  => {

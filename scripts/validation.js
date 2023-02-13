@@ -48,9 +48,7 @@ function enableSubmitBtn(buttonEl, config){
     buttonEl.disabled = false;
 }
 
-function toggleSubmitBtn(inputEls, buttonEl, config){  
-    
-    
+function toggleSubmitBtn(inputEls, buttonEl, config){ 
     if(hasInvalidInput(inputEls)){
         disableSubmitBtn(buttonEl, config);
     }
@@ -65,8 +63,7 @@ function enableValidation(config){
        
     formEls.forEach((formEl) => {
         formEl.addEventListener('submit', (evt) => {
-            evt.preventDeatful()
-            
+            evt.preventDefault();            
         })
         setEventListeners(formEl, config)  
     });
@@ -79,10 +76,16 @@ function setEventListeners(formEl, config){
         inputEl.addEventListener('input', (evt) =>{            
             checkValidity(formEl, inputEl, config)
             toggleSubmitBtn(inputEls, buttonEl, config)            
-        })
+        });
 
-
-    })
+        //reset "event"
+        formEl.addEventListener("reset", () => {
+            // `setTimeout` is needed to wait till the form is fully reset and then to call `toggleButtonState`
+            setTimeout(() => {
+             toggleSubmitBtn(inputEls, buttonEl, config)  
+            }, 0); 
+          });
+    });
 };
 
 enableValidation(config)
