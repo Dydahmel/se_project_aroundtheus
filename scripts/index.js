@@ -150,5 +150,6 @@ addCardForm.addEventListener('submit', (event) =>{
 initialCards.forEach((cardData)  => {
   const cardViev = getCardElement(cardData);
   renderCard(cardViev, cardListEl);  
-})
+});
+
 
