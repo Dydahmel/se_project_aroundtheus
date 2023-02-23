@@ -1,3 +1,15 @@
+import FormValidator from './formValidator.js'
+
+
+const config = {
+  formSelector: ".modal__form",
+  inputSelector: ".modal__input",
+  submitButtonSelector: ".modal__save-button",
+  inactiveButtonClass: "modal__save-button-disabled",
+  inputErrorClass: ".modal__input-type-error",
+  errorClass: ".modal__error_visible"
+}; 
+
 const initialCards = [
     {
       name: "Yosemite Valley",
@@ -152,4 +164,17 @@ initialCards.forEach((cardData)  => {
   renderCard(cardViev, cardListEl);  
 });
 
+//const editFormValidation = new FormValidator(config, profileEditModal);
+//const addFormValidation = new FormValidator(config, profileAddModal);
 
+
+
+
+const editForm = profileEditModal.querySelector(config.formSelector);
+const addForm = profileAddModal.querySelector(config.formSelector);
+
+const editFormValidation = new FormValidator(config, editForm);
+const addFormValidation = new FormValidator(config, addForm);
+
+editFormValidation.enableValidation();
+addFormValidation.enableValidation();
