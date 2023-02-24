@@ -1,4 +1,7 @@
-import FormValidator from './formValidator.js'
+import FormValidator from './FormValidator.js'
+import Card from './Card.js';
+
+
 
 
 const config = {
@@ -35,7 +38,10 @@ const initialCards = [
       name: "Lago di Braies",
       link: "https://code.s3.yandex.net/web-code/lago.jpg",
     },
-  ];
+];
+
+//const card = new Card(initialCards[0])
+//card.getViev()
 
 const profileEditBtn = document.querySelector('#profile__edit-btn');
 const profileEditModal = document.querySelector('#profile__edit-modal');
@@ -55,6 +61,11 @@ const imageModal = document.querySelector('#card__image-modal');
 const modalImageEl = imageModal.querySelector(".modal__image");
 const modalImageCaption = imageModal.querySelector('.modal__image-caption');
 const allModals = document.querySelectorAll('.modal');
+
+
+function openImage(){
+  openPopup(imageModal)
+};
 
 
 
@@ -84,8 +95,9 @@ function handleProfileFormSubmit(event){
   closePopup(profileEditModal);
 };
 
-function renderCard(cardElement, container){
+function renderCard(cardElement, container){  
   container.prepend(cardElement);
+  
 };
 
 function toggleLikeBtn(element){
@@ -160,7 +172,7 @@ addCardForm.addEventListener('submit', (event) =>{
 })
 
 initialCards.forEach((cardData)  => {
-  const cardViev = getCardElement(cardData);
+  const cardViev = new Card(cardData).getViev();
   renderCard(cardViev, cardListEl);  
 });
 
@@ -178,3 +190,6 @@ const addFormValidation = new FormValidator(config, addForm);
 
 editFormValidation.enableValidation();
 addFormValidation.enableValidation();
+
+
+export {openImage, modalImageEl as modalImage, modalImageCaption as modalCaption}
