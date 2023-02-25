@@ -1,4 +1,5 @@
-import {openImage, modalImage, modalCaption} from './index.js'
+import {modalImage, modalCaption} from './index.js'
+import {openImage} from './utils.js'
 
 
 
