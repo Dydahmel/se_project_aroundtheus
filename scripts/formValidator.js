@@ -7,9 +7,6 @@ const config = {
     inputErrorClass: ".modal__input-type-error",
     errorClass: ".modal__error_visible"
 }; 
-const test = ()  =>{
-    console.log('its working')
-}
 
 
 
@@ -103,4 +100,4 @@ class FormValidator{
 
 
 
-export default FormValidator;
+export {FormValidator, config};
