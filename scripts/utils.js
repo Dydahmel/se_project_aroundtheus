@@ -1,5 +1,3 @@
-import { imageModal } from "./index.js";
-
 
 function closePopup(modal){  
     document.removeEventListener('keydown', closeModalByEsc);
@@ -18,13 +16,11 @@ function closeModalByEsc(evt){
     }  
 };
 
-function openImage(){
-    openPopup(imageModal)
-};
 
 
 
-export {openImage, openPopup, closePopup}
+
+export {openPopup, closePopup}
 
 
 

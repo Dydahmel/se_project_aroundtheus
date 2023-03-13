@@ -1,14 +1,3 @@
-//selectors for validation
-const config = {
-    formSelector: ".modal__form",
-    inputSelector: ".modal__input",
-    submitButtonSelector: ".modal__save-button",
-    inactiveButtonClass: "modal__save-button-disabled",
-    inputErrorClass: ".modal__input-type-error",
-    errorClass: ".modal__error_visible"
-}; 
-
-
 
 class FormValidator{
     constructor(config, formElement){
@@ -24,8 +13,8 @@ class FormValidator{
     };
 
     _setEventListeners(){
-        const inputEls = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-        const buttonEl = this._formElement.querySelector(this._submitButtonSelector)
+        const inputEls = [...this._formElement.querySelectorAll(this._inputSelector)];
+        const buttonEl = this._formElement.querySelector(this._submitButtonSelector);
         inputEls.forEach(inputEl => {
             inputEl.addEventListener('input', () =>{                
                 this._checkValidity(inputEl)
@@ -66,6 +55,8 @@ class FormValidator{
         errorMessage.classList.remove(this._errorClass)    
     }
 
+// i cannot remove parameters in order to keep validation working
+
     _toggleSubmitBtn(inputEls, buttonEl){ 
         if(this._hasInvalidInput(inputEls)){
             this._disableSubmitBtn(buttonEl);
@@ -100,4 +91,4 @@ class FormValidator{
 
 
 
-export {FormValidator, config};
+export default FormValidator;

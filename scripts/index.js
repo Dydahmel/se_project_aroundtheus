@@ -1,34 +1,11 @@
-import {FormValidator, config} from './FormValidator.js'
+//i dont get any errors in console regarding to import statements
+import FormValidator from './FormValidator.js';
 import Card from './Card.js';
-import { openPopup, closePopup } from './utils.js';
+import {openPopup, closePopup} from './utils.js';
+import {config, initialCards} from './constants.js'
 
 
-const initialCards = [
-    {
-      name: "Yosemite Valley",
-      link: "https://code.s3.yandex.net/web-code/yosemite.jpg",
-    },
-    {
-      name: "Lake Louise",
-      link: "https://code.s3.yandex.net/web-code/lake-louise.jpg",
-    },
-    {
-      name: "Bald Mountains",
-      link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg",
-    },
-    {
-      name: "Latemar",
-      link: "https://code.s3.yandex.net/web-code/latemar.jpg",
-    },
-    {
-      name: "Vanoise National Park",
-      link: "https://code.s3.yandex.net/web-code/vanoise.jpg",
-    },
-    {
-      name: "Lago di Braies",
-      link: "https://code.s3.yandex.net/web-code/lago.jpg",
-    },
-];
+
 
 
 
@@ -50,10 +27,14 @@ const modalImageEl = imageModal.querySelector(".modal__image");
 const modalImageCaption = imageModal.querySelector('.modal__image-caption');
 const allModals = document.querySelectorAll('.modal');
 
+function getCardView(cardData){
+  const cardView = new Card(cardData).getViev();
+  return cardView  
+}
 
-initialCards.forEach((cardData)  => {
-  const cardViev = new Card(cardData).getViev();
-  renderCard(cardViev, cardListEl);  
+
+initialCards.forEach((cardData)  => {  
+  renderCard(getCardView(cardData), cardListEl);  
 });
 
 
@@ -72,9 +53,8 @@ function handleProfileFormSubmit(event){
 addCardForm.addEventListener('submit', (event) =>{
   event.preventDefault();
   const name = event.target.title.value;
-  const link = event.target.link.value;  
-  const cardViev = new Card({name, link}).getViev();
-  renderCard(cardViev, cardListEl);
+  const link = event.target.link.value;    
+  renderCard(getCardView({name, link}), cardListEl);
   closePopup(profileAddModal);
   event.target.reset();  
 });
@@ -101,11 +81,9 @@ allModals.forEach((modal) => {
   } );  
 });
 
-
-
-
-
-
+function openImage(){
+  openPopup(imageModal)
+};
 
 const editForm = profileEditModal.querySelector(config.formSelector);
 const addForm = profileAddModal.querySelector(config.formSelector);
@@ -120,4 +98,5 @@ addFormValidation.enableValidation();
 export { 
   modalImageEl as modalImage, 
   modalImageCaption as modalCaption,
-  imageModal,}
+  imageModal,
+  openImage}
