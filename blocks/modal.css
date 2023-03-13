@@ -101,15 +101,12 @@
     height: 14px;
     padding-bottom: 13px;
 }
-    
-
-
 
 .modal__input::placeholder{
     font-family: 'Inter', arial, sans-serif;
     font-style: normal;
     font-size: 14px;
-    line-height: 1.2;    
+    line-height: 1.2;
     color: #000;
 }
 
@@ -127,7 +124,6 @@
     align-content: center;
     width: 100%;
     padding: 36px;
-    
 }
 
 .modal__close-button:hover{
@@ -146,11 +142,11 @@
     line-height: 1.2;
     color: red;
     margin-top: 5px;
-    margin-bottom: 13px; 
+    margin-bottom: 13px;
 }
 
 .modal__error_visible{    
-    border-bottom: 1px solid red;      
+    border-bottom: 1px solid red;
 }
 
 .modal__save-button-disabled{
