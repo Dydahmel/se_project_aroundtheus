@@ -28,7 +28,7 @@ const modalImageCaption = imageModal.querySelector('.modal__image-caption');
 const allModals = document.querySelectorAll('.modal');
 
 function getCardView(cardData){
-  const cardView = new Card(cardData).getViev();
+  const cardView = new Card(cardData).getView();
   return cardView  
 }
 

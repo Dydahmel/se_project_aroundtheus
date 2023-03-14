@@ -44,17 +44,19 @@ class Card{
 
     _removeCard(){
         this._card.remove();
+        this._card = null;
     }; 
     
-    getViev(){
+    getView(){
         this._card = this._getTemplate();
         this._setEventListeners();
         
-
-        this._card.querySelector('.card__image').src = this._link;        
+        const cardEl = this._card.querySelector('.card__image');
+        cardEl.src = this._link;        
+        cardEl.alt = this._name;
         this._card.querySelector('.card__title').textContent = this._name;
-        this._card.querySelector('.card__image').alt = this._name;
-
+        
+        
         return this._card       
         
     }
