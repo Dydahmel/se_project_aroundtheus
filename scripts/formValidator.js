@@ -6,26 +6,25 @@ class FormValidator{
         this._inactiveButtonClass = config.inactiveButtonClass;
         this._inputErrorClass = config.inputErrorClass;
         this._errorClass = config.errorClass;
-
         this._formElement = formElement;
+        this._buttonEl = this._formElement.querySelector(this._submitButtonSelector);
+        this._inputEls = [...this._formElement.querySelectorAll(this._inputSelector)];
         
         
     };
 
     _setEventListeners(){
-        const inputEls = [...this._formElement.querySelectorAll(this._inputSelector)];
-        const buttonEl = this._formElement.querySelector(this._submitButtonSelector);
-        inputEls.forEach(inputEl => {
+        this._inputEls.forEach(inputEl => {
             inputEl.addEventListener('input', () =>{                
                 this._checkValidity(inputEl)
-                this._toggleSubmitBtn(inputEls, buttonEl)            
+                this._toggleSubmitBtn(inputEl)            
         });
 
         //reset "event"
         this._formElement.addEventListener("reset", () => {
             // `setTimeout` is needed to wait till the form is fully reset and then to call `toggleButtonState`
             setTimeout(() => {
-             this._toggleSubmitBtn(inputEls, buttonEl)  
+             this._toggleSubmitBtn(inputEl)  
             }, 0); 
           });
     });
@@ -55,29 +54,29 @@ class FormValidator{
         errorMessage.classList.remove(this._errorClass)    
     }
 
-// i cannot remove parameters in order to keep validation working
 
-    _toggleSubmitBtn(inputEls, buttonEl){ 
-        if(this._hasInvalidInput(inputEls)){
-            this._disableSubmitBtn(buttonEl);
+
+    _toggleSubmitBtn(){ 
+        if(this._hasInvalidInput()){
+            this._disableSubmitBtn();
         }
         else{
-            this._enableSubmitBtn(buttonEl)
+            this._enableSubmitBtn()
         }
     }
 
-    _hasInvalidInput(inputList){
-        return !inputList.every((inputEl) => inputEl.validity.valid)
+    _hasInvalidInput(){
+        return !this._inputEls.every((inputEl) => inputEl.validity.valid)
     };
 
-    _disableSubmitBtn(buttonEl){
-        buttonEl.classList.add(this._inactiveButtonClass);
-        buttonEl.disabled = true;
+    _disableSubmitBtn(){
+        this._buttonEl.classList.add(this._inactiveButtonClass);
+        this._buttonEl.disabled = true;
     }
 
-    _enableSubmitBtn(buttonEl){
-        buttonEl.classList.remove(this._inactiveButtonClass);
-        buttonEl.disabled = false;
+    _enableSubmitBtn(){
+        this._buttonEl.classList.remove(this._inactiveButtonClass);
+        this._buttonEl.disabled = false;
     }
 
 
