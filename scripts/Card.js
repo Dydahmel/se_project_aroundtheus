@@ -1,66 +1,56 @@
-import {modalImage, modalCaption, openImage} from './index.js'
+import { modalImage, modalCaption, openImage } from "./index.js";
 
+class Card {
+  constructor(data, cardSelector) {
+    this._name = data.name;
+    this._link = data.link;
+    this._cardSelector = cardSelector;
+  }
 
+  _getTemplate() {
+    const cardEl = document
+      .querySelector("#card__template")
+      .content.querySelector(".card")
+      .cloneNode(true);
+    return cardEl;
+  }
 
+  _setEventListeners() {
+    this._likeBtn = this._card.querySelector("#card_like-button");
+    this._deleteBtn = this._card.querySelector(".card__delete-btn");
+    this._image = this._card.querySelector(".card__image");
+    this._likeBtn.addEventListener("click", () => this._toggleLikeBtn());
+    this._deleteBtn.addEventListener("click", () => this._removeCard());
+    this._image.addEventListener("click", () => this._openImage());
+  }
 
-class Card{
-    constructor(data, cardSelector){
-        this._name = data.name;
-        this._link = data.link;
-        this._cardSelector = cardSelector;
+  _openImage() {
+    modalImage.src = this._link;
+    modalImage.alt = this._name;
+    modalCaption.textContent = this._name;
+    openImage();
+  }
 
+  _toggleLikeBtn() {
+    this._likeBtn.classList.toggle("card__like-button_enabled");
+  }
 
-    };
+  _removeCard() {
+    this._card.remove();
+    this._card = null;
+  }
 
-    _getTemplate(){
-       const cardEl = document
-       .querySelector('#card__template')
-       .content
-       .querySelector('.card')
-       .cloneNode(true)
-       return cardEl
-    };
+  getView() {
+    this._card = this._getTemplate();
+    this._setEventListeners();
 
-    
-    _setEventListeners(){
-      this._likeBtn = this._card.querySelector('#card_like-button');
-      this._deleteBtn = this._card.querySelector('.card__delete-btn');
-      this._image = this._card.querySelector('.card__image');
-      this._likeBtn.addEventListener('click', () => this._toggleLikeBtn());
-      this._deleteBtn.addEventListener('click', () => this._removeCard());
-      this._image.addEventListener('click', () => this._openImage())
-    }
+    const cardEl = this._card.querySelector(".card__image");
+    cardEl.src = this._link;
+    cardEl.alt = this._name;
+    this._card.querySelector(".card__title").textContent = this._name;
 
-    _openImage(){        
-        modalImage.src = this._link;
-        modalImage.alt = this._name;
-        modalCaption.textContent = this._name;
-        openImage();
-    }
-
-    _toggleLikeBtn(){
-        this._likeBtn.classList.toggle('card__like-button_enabled');
-    };
-
-    _removeCard(){
-        this._card.remove();
-        this._card = null;
-    }; 
-    
-    getView(){
-        this._card = this._getTemplate();
-        this._setEventListeners();
-        
-        const cardEl = this._card.querySelector('.card__image');
-        cardEl.src = this._link;        
-        cardEl.alt = this._name;
-        this._card.querySelector('.card__title').textContent = this._name;
-        
-        
-        return this._card       
-        
-    }
+    return this._card;
+  }
 }
-
 
 export default Card;
