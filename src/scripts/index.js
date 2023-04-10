@@ -81,6 +81,7 @@ const addForm = profileAddModal.querySelector(config.formSelector);
 
 const editFormValidation = new FormValidator(config, editForm);
 const addFormValidation = new FormValidator(config, addForm);
+const cardSection = new Selection({});
 
 editFormValidation.enableValidation();
 addFormValidation.enableValidation();
