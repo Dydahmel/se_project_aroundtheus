@@ -3,6 +3,20 @@ import FormValidator from "./FormValidator.js";
 import Card from "./Card.js";
 import { openPopup, closePopup } from "./utils.js";
 import { config, initialCards } from "./constants.js";
+import Section from "./Section.js";
+import Popup from "./Popup.js";
+import "../pages/index.css";
+
+
+const cardSection = new Section({
+  renderer: (item) =>{
+    const cardEl = new Card(item, config.cardTeplate);
+    cardSection.addItems(cardEl.getViev());
+  },
+  selector: config.cardSectionClass,
+});
+
+cardSection.renderItems(initialCards)
 
 const profileEditBtn = document.querySelector("#profile__edit-btn");
 const profileEditModal = document.querySelector("#profile__edit-modal");
@@ -81,7 +95,7 @@ const addForm = profileAddModal.querySelector(config.formSelector);
 
 const editFormValidation = new FormValidator(config, editForm);
 const addFormValidation = new FormValidator(config, addForm);
-const cardSection = new Selection({});
+
 
 editFormValidation.enableValidation();
 addFormValidation.enableValidation();

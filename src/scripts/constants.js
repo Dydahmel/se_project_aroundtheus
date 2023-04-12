@@ -7,6 +7,8 @@ const config = {
   inactiveButtonClass: "modal__save-button-disabled",
   inputErrorClass: ".modal__input-type-error",
   errorClass: "modal__error_visible",
+  cardSectionClass: "card__list",
+  cardTeplate: "card__teplate",
 };
 
 const initialCards = [
