@@ -9,14 +9,14 @@ import "../pages/index.css";
 
 
 const cardSection = new Section({
+  data: initialCards,
   renderer: (item) =>{
     const cardEl = new Card(item, config.cardTeplate);
     cardSection.addItems(cardEl.getViev());
-  },
-  selector: config.cardSectionClass,
-});
+  }  
+}, config.cardSectionClass);
 
-cardSection.renderItems(initialCards)
+cardSection.renderItems()
 
 const profileEditBtn = document.querySelector("#profile__edit-btn");
 const profileEditModal = document.querySelector("#profile__edit-modal");
