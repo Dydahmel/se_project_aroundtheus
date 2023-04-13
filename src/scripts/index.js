@@ -36,18 +36,7 @@ const modalImageEl = imageModal.querySelector(".modal__image");
 const modalImageCaption = imageModal.querySelector(".modal__image-caption");
 const allModals = document.querySelectorAll(".modal");
 
-function getCardView(cardData) {
-  const cardView = new Card(cardData).getView();
-  return cardView;
-}
 
-initialCards.forEach((cardData) => {
-  renderCard(getCardView(cardData), cardListEl);
-});
-
-function renderCard(cardElement, container) {
-  container.prepend(cardElement);
-}
 
 function handleProfileFormSubmit(event) {
   event.preventDefault();
