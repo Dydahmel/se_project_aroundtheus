@@ -8,11 +8,12 @@ import Popup from "./Popup.js";
 import "../pages/index.css";
 
 
+
 const cardSection = new Section({
   data: initialCards,
   renderer: (item) =>{
-    const cardEl = new Card(item, config.cardTeplate);
-    cardSection.addItems(cardEl.getViev());
+    const card = new Card(item).getView();    
+    cardSection.addItem(card);    
   }  
 }, config.cardSectionClass);
 
@@ -94,4 +95,5 @@ export {
   modalImageCaption as modalCaption,
   imageModal,
   openImage,
+  cardSection
 };
