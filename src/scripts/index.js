@@ -6,13 +6,32 @@ import { config, initialCards } from "./constants.js";
 import Section from "./Section.js";
 import Popup from "./Popup.js";
 import "../pages/index.css";
+import PopupImage from "./PopupImage.js";
+import PopupForm from "./PopupForm.js";
+
+const popupImage = new PopupImage("#card__image-modal");
+
+
+
+
+//const popupForm = new PopupForm("id", ()=>{
+
+//})
+
+
+
+function handleImageClick(){
+  popupImage.open()
+}
+
+
 
 
 
 const cardSection = new Section({
   data: initialCards,
   renderer: (item) =>{
-    const card = new Card(item).getView();    
+    const card = new Card(item, "#card__template", handleImageClick).getView();    
     cardSection.addItem(card);    
   }  
 }, config.cardSectionClass);
@@ -76,9 +95,7 @@ allModals.forEach((modal) => {
   });
 });
 
-function openImage() {
-  openPopup(imageModal);
-}
+
 
 const editForm = profileEditModal.querySelector(config.formSelector);
 const addForm = profileAddModal.querySelector(config.formSelector);
@@ -93,7 +110,6 @@ addFormValidation.enableValidation();
 export {
   modalImageEl as modalImage,
   modalImageCaption as modalCaption,
-  imageModal,
-  openImage,
+  imageModal, 
   cardSection
 };

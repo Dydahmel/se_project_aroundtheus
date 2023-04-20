@@ -1,15 +1,17 @@
 import { modalImage, modalCaption, openImage } from "./index.js";
+import PopupImage from "./PopupImage.js";
 
 class Card {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handleImageClick) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+    this._handeImageClick = handleImageClick;
   }
 
   _getTemplate() {
     const cardEl = document
-      .querySelector("#card__template")
+      .querySelector(this._cardSelector)
       .content.querySelector(".card")
       .cloneNode(true);
     return cardEl;
@@ -27,8 +29,8 @@ class Card {
   _openImage() {
     modalImage.src = this._link;
     modalImage.alt = this._name;
-    modalCaption.textContent = this._name;
-    openImage();
+    modalCaption.textContent = this._name;    
+    this._handeImageClick();
   }
 
   _toggleLikeBtn() {
