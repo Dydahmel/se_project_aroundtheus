@@ -1,6 +1,14 @@
+import Popup from "./Popup";
+
 export default class PopupImage extends Popup{
-    constructor(popupSelector, handleSubmit){
+    constructor(popupSelector){
         super({popupSelector});
-        this._popupImageEl = this._popupElement.querrySelector('.modal__image');
-        this._handleSubmit = handleSubmit;
+        this._popupImageEl = this._popupElement.querrySelector('.modal__image');        
     }
+    open(){
+
+    }
+    close(){
+        
+    }
+}
