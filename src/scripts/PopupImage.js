@@ -4,7 +4,7 @@ import Popup from "./Popup";
 export default class PopupImage extends Popup{
     constructor(popupSelector){
         super({popupSelector});
-        this._popupImageEl = this._popupElement  
+        this._popupElement = document.querySelector(popupSelector); 
     }
     open(){
         super.open();

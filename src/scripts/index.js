@@ -10,13 +10,29 @@ import PopupImage from "./PopupImage.js";
 import PopupForm from "./PopupForm.js";
 
 const popupImage = new PopupImage("#card__image-modal");
+popupImage.setEventListeners();
+
+function renderCard({item}){
+   new Card(item, "#card__template", handleImageClick).getView();
+}
 
 
 
 
-//const popupForm = new PopupForm("id", ()=>{
+const popupAddForm = new PopupForm("#profile__add-modal", (event) => {
+  event.preventDefault();
+  const name = event.target.title.value;
+  const link = event.target.link.value;
+  const card = new Card({ name, link }, "#card__template", handleImageClick).getView();
+  cardSection.addItem(card); 
+  popupAddForm.close();
+})
+popupAddForm.setEventListeners();
 
-//})
+
+const profileAddBtn = document.querySelector("#profile__add-button");
+
+profileAddBtn.addEventListener("click", () => popupAddForm.open());
 
 
 
@@ -48,7 +64,7 @@ const profileEditForm = profileEditModal.querySelector(".modal__form");
 const cardListEl = document.querySelector(".cards__list");
 
 const profileAddModal = document.querySelector("#profile__add-modal");
-const profileAddBtn = document.querySelector("#profile__add-button");
+
 const addCardForm = profileAddModal.querySelector(".modal__form");
 
 const imageModal = document.querySelector("#card__image-modal");
@@ -65,35 +81,17 @@ function handleProfileFormSubmit(event) {
   closePopup(profileEditModal);
 }
 
-addCardForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const name = event.target.title.value;
-  const link = event.target.link.value;
-  renderCard(getCardView({ name, link }), cardListEl);
-  closePopup(profileAddModal);
-  event.target.reset();
-});
-
 profileEditBtn.addEventListener("click", () => {
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileJob.textContent;
   openPopup(profileEditModal);
 });
 
-profileAddBtn.addEventListener("click", () => openPopup(profileAddModal));
+
 
 profileEditForm.addEventListener("submit", handleProfileFormSubmit);
 
-allModals.forEach((modal) => {
-  modal.addEventListener("mousedown", (evt) => {
-    if (evt.target.classList.contains("modal")) {
-      closePopup(modal);
-    }
-    if (evt.target.classList.contains("modal__close-button")) {
-      closePopup(modal);
-    }
-  });
-});
+
 
 
 
