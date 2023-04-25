@@ -1,7 +1,7 @@
 //but why we cannot just use TAB indentation on code formatting? why it should be double space?
 import FormValidator from "./FormValidator.js";
 import Card from "./Card.js";
-import { openPopup, closePopup } from "./utils.js";
+
 import { config, initialCards } from "./constants.js";
 import Section from "./Section.js";
 import "../pages/index.css";
@@ -19,19 +19,17 @@ function renderCard(item){
 
 
 
-const popupAddForm = new PopupForm("#profile__add-modal", (event) => {
-  event.preventDefault();
-  const name = event.target.title.value;
-  const link = event.target.link.value;
-  renderCard({ name, link })
+const popupAddForm = new PopupForm("#profile__add-modal", (inputValues) => {
+  const name = inputValues.title;
+  const link = inputValues.link;
+  renderCard({name, link})
   popupAddForm.close();
 })
 popupAddForm.setEventListeners();
 
-const popupEditForm = new PopupForm("#profile__edit-modal", (event) => {
-  event.preventDefault();
-  profileName.textContent = profileNameInput.value;
-  profileJob.textContent = profileJobInput.value;
+const popupEditForm = new PopupForm("#profile__edit-modal", (inputValues) => {
+  profileName.textContent = inputValues.title;
+  profileJob.textContent = inputValues.subtitle;    
   popupEditForm.close()
 });
 popupEditForm.setEventListeners();
@@ -75,7 +73,6 @@ const addCardForm = profileAddModal.querySelector(".modal__form");
 const imageModal = document.querySelector("#card__image-modal");
 const modalImageEl = imageModal.querySelector(".modal__image");
 const modalImageCaption = imageModal.querySelector(".modal__image-caption");
-const allModals = document.querySelectorAll(".modal");
 
 
 
@@ -84,14 +81,10 @@ const allModals = document.querySelectorAll(".modal");
 
 
 
-console.log(popupEditForm.querySelector(config.formSelector))
 
 
-
-
-
-const editForm = popupEditForm.querySelector(config.formSelector);
-const addForm = popupAddForm.querySelector(config.formSelector);
+const editForm = profileEditModal.querySelector(config.formSelector);
+const addForm = profileAddModal.querySelector(config.formSelector);
 
 const editFormValidation = new FormValidator(config, editForm);
 const addFormValidation = new FormValidator(config, addForm);
@@ -99,6 +92,10 @@ const addFormValidation = new FormValidator(config, addForm);
 
 editFormValidation.enableValidation();
 addFormValidation.enableValidation();
+
+
+
+
 
 export {
   modalImageEl as modalImage,
