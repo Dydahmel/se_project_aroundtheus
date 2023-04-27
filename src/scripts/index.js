@@ -7,6 +7,7 @@ import Section from "./Section.js";
 import "../pages/index.css";
 import PopupImage from "./PopupImage.js";
 import PopupForm from "./PopupForm.js";
+import UserInfo from "./UserInfo.js";
 
 const popupImage = new PopupImage("#card__image-modal");
 popupImage.setEventListeners();
@@ -19,27 +20,32 @@ function renderCard(item){
 
 
 
-const popupAddForm = new PopupForm("#profile__add-modal", (inputValues) => {
-  const name = inputValues.title;
-  const link = inputValues.link;
-  renderCard({name, link})
+const popupAddForm = new PopupForm("#profile__add-modal", (inputValues) => {  
+  renderCard(inputValues)
   popupAddForm.close();
 })
 popupAddForm.setEventListeners();
 
 const popupEditForm = new PopupForm("#profile__edit-modal", (inputValues) => {
-  profileName.textContent = inputValues.title;
-  profileJob.textContent = inputValues.subtitle;    
-  popupEditForm.close()
+  console.log(inputValues);
+  new UserInfo(inputValues).setUserInfo();  
+  popupEditForm.close();
 });
 popupEditForm.setEventListeners();
+
+const currentUser = new UserInfo().getUserInfo()
+
+console.log(currentUser.title)
 
 
 const profileAddBtn = document.querySelector("#profile__add-button");
 const profileEditBtn = document.querySelector("#profile__edit-btn");
 
 profileAddBtn.addEventListener("click", () => popupAddForm.open());
-profileEditBtn.addEventListener("click", () => popupEditForm.open())
+profileEditBtn.addEventListener("click", () => {
+  popupEditForm.open()
+  new UserInfo().getUserInfo()  
+})
 
 
 

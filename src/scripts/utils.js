@@ -8,9 +8,6 @@ function openPopup(modal) {
   modal.classList.add("modal_opened");
 }
 
-//function openImage() {
-  //openPopup(imageModal);
-//}
 
 function closeModalByEsc(evt) {
   if (evt.key === "Escape") {
