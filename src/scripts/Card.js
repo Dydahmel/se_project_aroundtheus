@@ -28,7 +28,7 @@ class Card {
   _openImage() {
     modalImage.src = this._link;
     modalImage.alt = this._name;
-    modalCaption.textContent = this._name;    
+    modalCaption.textContent = this._name;
     this._handeImageClick();
   }
 
