@@ -1,6 +1,4 @@
-import { modalImage, modalCaption } from "./index.js";
-
-class Card {
+export default class Card {
   constructor(data, cardSelector, handleImageClick) {
     this._name = data.name;
     this._link = data.link;
@@ -26,10 +24,7 @@ class Card {
   }
 
   _openImage() {
-    modalImage.src = this._link;
-    modalImage.alt = this._name;
-    modalCaption.textContent = this._name;
-    this._handeImageClick();
+    this._handeImageClick(this._link, this._name);
   }
 
   _toggleLikeBtn() {
@@ -44,14 +39,10 @@ class Card {
   getView() {
     this._card = this._getTemplate();
     this._setEventListeners();
-
-    const cardEl = this._card.querySelector(".card__image");
-    cardEl.src = this._link;
-    cardEl.alt = this._name;
+    this._image.src = this._link;
+    this._image.alt = this._name;
     this._card.querySelector(".card__title").textContent = this._name;
 
     return this._card;
   }
 }
-
-export default Card;

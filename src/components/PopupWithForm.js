@@ -1,27 +1,30 @@
 import Popup from "./Popup";
-import { config } from "./constants.js";
+import { config } from "../utils/constants.js";
 
-export default class PopupForm extends Popup {
+export default class PopupWithForm extends Popup {
   constructor(popupSelector, handleSubmit) {
-    super({ popupSelector });
-    this._popupElement = document.querySelector(popupSelector);
+    super({ popupSelector });    
     this._popupFormEl = this._popupElement.querySelector(config.formSelector);
-    this._handleSubmit = handleSubmit;
+    this._inputEls = this._popupFormEl.querySelectorAll(config.inputSelector);
+    this._handleSubmit = handleSubmit;    
   }
+  setInputValues(data) {
+    this._inputEls.forEach((input) => {
+      // here you insert the `value` by the `name` of the input
+      input.value = data[input.name];
+    });
+  }
+
   close() {
     super.close();
     this._popupFormEl.reset();
-  }
-  open() {
-    super.open();
-  }
+  }  
 
   _getInputValues() {
     const inputValues = {};
-    //get all inputs
-    const inputEl = this._popupFormEl.querySelectorAll(config.inputSelector);
+    //get all inputs    
     //loop over all inputs
-    inputEl.forEach((input) => {
+    this._inputEls.forEach((input) => {
       //assign inputs to empty object by name=value
       inputValues[input.name] = input.value;
     });
