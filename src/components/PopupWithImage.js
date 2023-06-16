@@ -7,8 +7,7 @@ export default class PopupWithImage extends Popup {
     this._caption = this._popupElement.querySelector(".modal__image-caption");
   }
   open(name, link) {
-    super.open();
-    // i dont know why this is working, somehow link became name
+    super.open();    
     this._image.src = name;
     this._image.alt = link;
     this._caption.textContent = link;
