@@ -1,4 +1,4 @@
-class Api {
+export default class Api {
     constructor(options){
         this._baseUrl = options.baseUrl;
         this._headers = options.headers;
@@ -7,6 +7,7 @@ class Api {
 
     _checkResponse(res) {
         if (res.ok) {
+          console.log("its here!")
           return res.json();
         }
         return Promise.reject(`Error: ${res.status}`);
@@ -14,9 +15,10 @@ class Api {
     
 
     getInitialCards(){
-        
-
-
+      return fetch(`${this._baseUrl}/cards`,{
+        headers: this._headers
+      })
+      .then(this._checkResponse) 
     }
 
     getUserIngo(){
@@ -24,12 +26,5 @@ class Api {
     }
 }
 
-const api = new Api({
-    baseUrl: "https://around.nomoreparties.co/v1/group-12",
-    headers: {
-      authorization: "cd8b3986-f3d6-4da9-8f48-96bc48ae4bb7",
-      "Content-Type": "application/json",
-    },
-});
 
-export default api
+

@@ -1,16 +1,18 @@
 //but why we cannot just use TAB indentation on code formatting? why it should be double space?
 import FormValidator from "../components/FormValidator.js";
 import Card from "../components/Card.js";
-import { config, initialCards } from "../utils/constants.js";
+import { config , initialCards} from "../utils/constants.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
-import api from "../components/Api.js";
+import Api from "../components/Api.js";
 import "../page/index.css";
 
 const profileAddBtn = document.querySelector("#profile__add-button");
 const profileEditBtn = document.querySelector("#profile__edit-btn");
+//placeholder for section
+let cardSection;
 
 function createCard(item) {
   const cardElement = new Card(
@@ -29,6 +31,34 @@ function renderCard(item) {
 function handleImageClick(name, link) {
   popupImage.open(name, link);
 }
+
+
+//new inst of API(set options)
+const api = new Api({
+  baseUrl: "https://around.nomoreparties.co/v1/group-12",
+  headers: {
+    authorization: "cd8b3986-f3d6-4da9-8f48-96bc48ae4bb7",
+    "Content-Type": "application/json",
+  },
+});
+// loaded cards from server
+api.getInitialCards().then((res) => {
+  //new section
+  cardSection = new Section(
+    {
+      //using data from server
+      data: res,
+      renderer: (item) => {
+        renderCard(item);
+      },
+    },
+    config.cardSectionClass
+  );
+  cardSection.renderItems();
+});
+
+
+
 
 const userInfo = new UserInfo({
   title: ".profile__title",
@@ -50,16 +80,8 @@ const popupEditForm = new PopupWithForm(
   }
 );
 
-const cardSection = new Section(
-  {
-    data: initialCards,
-    renderer: (item) => {
-      renderCard(item);
-    },
-  },
-  config.cardSectionClass
-);
-cardSection.renderItems();
+
+
 
 const formValidators = {};
 
