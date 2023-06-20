@@ -7,7 +7,7 @@ export default class Api {
 
     _checkResponse(res) {
         if (res.ok) {
-          console.log("its here!")
+          console.log("its working")
           return res.json();
         }
         return Promise.reject(`Error: ${res.status}`);
@@ -21,8 +21,34 @@ export default class Api {
       .then(this._checkResponse) 
     }
 
-    getUserIngo(){
+    getUserInfo(){
+      return fetch(`${this._baseUrl}/users/me`,{
+        headers: this._headers
+      })
+      .then(this._checkResponse)
+    }
 
+
+    updateUserInfo(input){
+      fetch(`${this._baseUrl}/users/me`, {
+        method: "PATCH",
+        headers: this._headers,
+        body: JSON.stringify({
+          name: input.name ,
+          about: input.about
+        })
+      });
+    }
+
+    addNewCard(input){
+      fetch(`${this._baseUrl}/cards`, {
+        method: "POST",
+        headers: this._headers,
+        body: JSON.stringify({
+          name: input.name,
+          link: input.link
+        })
+      })
     }
 }
 

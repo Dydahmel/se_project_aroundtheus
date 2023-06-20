@@ -1,7 +1,7 @@
 //but why we cannot just use TAB indentation on code formatting? why it should be double space?
 import FormValidator from "../components/FormValidator.js";
 import Card from "../components/Card.js";
-import { config , initialCards} from "../utils/constants.js";
+import { config } from "../utils/constants.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -13,6 +13,8 @@ const profileAddBtn = document.querySelector("#profile__add-button");
 const profileEditBtn = document.querySelector("#profile__edit-btn");
 //placeholder for section
 let cardSection;
+//placeholder for userInfo
+let userInfo;
 
 function createCard(item) {
   const cardElement = new Card(
@@ -33,6 +35,7 @@ function handleImageClick(name, link) {
 }
 
 
+
 //new inst of API(set options)
 const api = new Api({
   baseUrl: "https://around.nomoreparties.co/v1/group-12",
@@ -41,6 +44,17 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
+
+api.getUserInfo().then((res) => {
+  //new UserInfo 
+  userInfo = new UserInfo({
+    title: ".profile__title",
+    subtitle: ".profile__subtitle",
+  });
+  //setting userInfo from server
+  userInfo.setUserInfo(res)
+})
+
 // loaded cards from server
 api.getInitialCards().then((res) => {
   //new section
@@ -58,27 +72,29 @@ api.getInitialCards().then((res) => {
 });
 
 
-
-
-const userInfo = new UserInfo({
-  title: ".profile__title",
-  subtitle: ".profile__subtitle",
-});
-
-const popupImage = new PopupWithImage("#card__image-modal");
-
-const popupAddForm = new PopupWithForm("#profile__add-modal", (inputValues) => {
-  renderCard(inputValues);
-  popupAddForm.close();
-});
-
 const popupEditForm = new PopupWithForm(
   "#profile__edit-modal",
   (inputValues) => {
     userInfo.setUserInfo(inputValues);
+    //updating userInfo (on?at?in) server
+    api.updateUserInfo(inputValues)
     popupEditForm.close();
   }
 );
+
+
+
+
+
+const popupImage = new PopupWithImage("#card__image-modal");
+
+const popupAddForm = new PopupWithForm("#profile__add-modal", (inputValues) => {
+  api.addNewCard(inputValues)
+  renderCard(inputValues);
+  popupAddForm.close();
+});
+
+
 
 
 
