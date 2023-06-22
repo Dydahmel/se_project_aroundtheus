@@ -153,6 +153,10 @@
   cursor: default;
 }
 
+.modal__yes-button{
+  background-image: url(../images/YesBtn.png);
+}
+
 @media screen and (max-width: 660px) {
   .modal__container {
     padding: 25px 22px;
@@ -175,7 +179,7 @@
   }
 
   .modal__save-button {
-    font-size: 14px;
+    font-size: 14px;    
   }
 
   .modal__container_img {
