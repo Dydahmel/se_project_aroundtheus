@@ -7,6 +7,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
+import PoppurDelete from "../components/PopupDelete.js";
 import "../page/index.css";
 
 const profileAddBtn = document.querySelector("#profile__add-button");
@@ -20,7 +21,8 @@ function createCard(item) {
   const cardElement = new Card(
     item,
     "#card__template",
-    handleImageClick
+    handleImageClick,
+    handleDeleteClick
   ).getView();
   return cardElement;
 }
@@ -33,6 +35,12 @@ function renderCard(item) {
 function handleImageClick(name, link) {
   popupImage.open(name, link);
 }
+
+function handleDeleteClick(){
+  popupDelete.open()
+}
+
+
 
 
 
@@ -84,7 +92,9 @@ const popupEditForm = new PopupWithForm(
 
 
 
-
+const popupDelete = new PoppurDelete("#card__delete-modal", () => {
+  popupDelete.close()
+});
 
 const popupImage = new PopupWithImage("#card__image-modal");
 
@@ -120,7 +130,7 @@ enableValidation(config);
 popupImage.setEventListeners();
 popupAddForm.setEventListeners();
 popupEditForm.setEventListeners();
-
+popupDelete.setEventListeners();
 profileAddBtn.addEventListener("click", () => popupAddForm.open());
 profileEditBtn.addEventListener("click", () => {
   popupEditForm.open();
