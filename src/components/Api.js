@@ -29,18 +29,19 @@ export default class Api {
 
 
     updateUserInfo(input){
-      fetch(`${this._baseUrl}/users/me`, {
+      return fetch(`${this._baseUrl}/users/me`, {
         method: "PATCH",
         headers: this._headers,
         body: JSON.stringify({
           name: input.name ,
           about: input.about
         })
-      });
+      })
+      .then(this._checkResponse)
     }
 
     addNewCard(input){
-      fetch(`${this._baseUrl}/cards`, {
+      return fetch(`${this._baseUrl}/cards`, {
         method: "POST",
         headers: this._headers,
         body: JSON.stringify({
@@ -48,10 +49,11 @@ export default class Api {
           link: input.link
         })
       })
+      .then(this._checkResponse)
     }
 
     deleteCard(cardId){
-      fetch(`${this._baseUrl}/cards/${cardId}`,{
+      return fetch(`${this._baseUrl}/cards/${cardId}`,{
         method: "DELETE",
         headers: this._headers
       })

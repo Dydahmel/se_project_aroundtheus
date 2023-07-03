@@ -37,7 +37,14 @@ function handleImageClick(name, link) {
 }
 
 function handleDeleteClick(cardId){  
-  popupDelete.open(cardId)
+  popupDelete.open()
+  popupDelete.setSubmitAction( () =>{
+    api.deleteCard(cardId).then((data) => {
+      console.log(data)
+      this.removeCard()
+      popupDelete.close()
+    })
+  })
   
 }
 
@@ -93,16 +100,12 @@ const popupEditForm = new PopupWithForm(
 
 
 
-const popupDelete = new PopupDelete("#card__delete-modal", (cardId) => {
-  api.deleteCard(cardId);   
-  popupDelete.close();  
-});
+const popupDelete = new PopupDelete("#card__delete-modal");
 
 const popupImage = new PopupWithImage("#card__image-modal");
 
 const popupAddForm = new PopupWithForm("#profile__add-modal", (inputValues) => {
-  api.addNewCard(inputValues)
-  renderCard(inputValues);
+  api.addNewCard(inputValues).then((data) => {renderCard(data); console.log(data)})  
   popupAddForm.close();
 });
 
