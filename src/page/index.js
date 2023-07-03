@@ -7,7 +7,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
-import PoppurDelete from "../components/PopupDelete.js";
+import PopupDelete from "../components/PopupDelete.js";
 import "../page/index.css";
 
 const profileAddBtn = document.querySelector("#profile__add-button");
@@ -36,8 +36,9 @@ function handleImageClick(name, link) {
   popupImage.open(name, link);
 }
 
-function handleDeleteClick(){
-  popupDelete.open()
+function handleDeleteClick(cardId){  
+  popupDelete.open(cardId)
+  
 }
 
 
@@ -92,8 +93,9 @@ const popupEditForm = new PopupWithForm(
 
 
 
-const popupDelete = new PoppurDelete("#card__delete-modal", () => {
-  popupDelete.close()
+const popupDelete = new PopupDelete("#card__delete-modal", (cardId) => {
+  api.deleteCard(cardId);   
+  popupDelete.close();  
 });
 
 const popupImage = new PopupWithImage("#card__image-modal");
