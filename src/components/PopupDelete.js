@@ -13,8 +13,7 @@ export default class PopupDelete extends Popup{
     setEventListeners(){
         super.setEventListeners()
         this._submitBtn.addEventListener("mousedown", () => {
-            this._handleDelete();
-            console.log('button is working')
+            this._handleDelete();           
         });
     }    
 };

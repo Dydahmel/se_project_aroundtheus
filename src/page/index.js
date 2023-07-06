@@ -16,13 +16,17 @@ const profileEditBtn = document.querySelector("#profile__edit-btn");
 let cardSection;
 //placeholder for userInfo
 let userInfo;
+//placeholder for userId
+let userId;
 
 function createCard(item) {
   const cardElement = new Card(
     item,
     "#card__template",
     handleImageClick,
-    handleDeleteClick
+    handleDeleteClick,
+    userId,
+    handleLikeClick
   ).getView();
   return cardElement;
 }
@@ -44,8 +48,17 @@ function handleDeleteClick(cardId){
       this.removeCard()
       popupDelete.close()
     })
-  })
-  
+  })  
+}
+
+function handleLikeClick(cardId){  
+  if(this._likeBtn.classList.contains("card__like-button_enabled")){
+    api.addLike(cardId)
+  }
+  else{
+    api.removeLike(cardId)
+  }
+
 }
 
 
@@ -62,6 +75,8 @@ const api = new Api({
 });
 
 api.getUserInfo().then((res) => {
+  //assign new value for userId
+  userId = res._id;  
   //new UserInfo 
   userInfo = new UserInfo({
     title: ".profile__title",
@@ -141,3 +156,6 @@ profileEditBtn.addEventListener("click", () => {
   popupEditForm.open();
   popupEditForm.setInputValues(userInfo.getUserInfo());
 });
+
+
+console.log(userId)
