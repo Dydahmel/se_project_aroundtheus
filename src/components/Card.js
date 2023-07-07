@@ -7,9 +7,9 @@ export default class Card {
     this._handleImageClick = handleImageClick;
     this._handleDeleteClick = handleDeleteClick;
     this._userId = userId;
-    this._ownerId = data.owner._id;
+    this._cardOwnerId = data.owner._id;
     this._handleLikeClick = handleLikeClick;
-    this._likeId = data.likes;
+    this._likeArr = data.likes;
   }
 
   _getTemplate() {
@@ -24,7 +24,7 @@ export default class Card {
     this._likeBtn = this._card.querySelector("#card_like-button");
     this._deleteBtn = this._card.querySelector(".card__delete-btn");
     this._image = this._card.querySelector(".card__image");
-    this._likeBtn.addEventListener("click", () => {this._toggleLikeBtn(); console.log(this._likeId)});
+    this._likeBtn.addEventListener("click", () => this._toggleLikeBtn());
     this._deleteBtn.addEventListener("click", () => this._handleDeleteClick(this._id));
     this._image.addEventListener("click", () => this._openImage());
   }
@@ -39,6 +39,12 @@ export default class Card {
     
   }
 
+  isLiked(){
+    this._likeArr.some(function({_id}){
+      return this._userId === _id
+    })
+  }
+
   removeCard() {
     this._card.remove();
     this._card = null;
@@ -51,9 +57,10 @@ export default class Card {
     this._image.alt = this._name;
     this._card.querySelector(".card__title").textContent = this._name;
     //check if user and owner ID matches
-    if(this._userId !== this._ownerId){
+    if(this._userId !== this._cardOwnerId){
       this._deleteBtn.remove()
     }
+    this.isLiked()
     
 
     return this._card;

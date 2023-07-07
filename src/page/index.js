@@ -43,8 +43,7 @@ function handleImageClick(name, link) {
 function handleDeleteClick(cardId){  
   popupDelete.open()
   popupDelete.setSubmitAction( () =>{
-    api.deleteCard(cardId).then((data) => {
-      console.log(data)
+    api.deleteCard(cardId).then( () => {      
       this.removeCard()
       popupDelete.close()
     })
@@ -53,7 +52,7 @@ function handleDeleteClick(cardId){
 
 function handleLikeClick(cardId){  
   if(this._likeBtn.classList.contains("card__like-button_enabled")){
-    api.addLike(cardId)
+    api.addLike(cardId)    
   }
   else{
     api.removeLike(cardId)
