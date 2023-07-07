@@ -36,12 +36,13 @@ export default class Card {
   _toggleLikeBtn() {
     this._likeBtn.classList.toggle("card__like-button_enabled");
     this._handleLikeClick(this._id);
+    //this.isLiked()
     
   }
 
   isLiked(){
-    this._likeArr.some(function({_id}){
-      return this._userId === _id
+    this._likeArr.some(({_id}) => {
+      return _id === this._userId       
     })
   }
 
@@ -59,9 +60,8 @@ export default class Card {
     //check if user and owner ID matches
     if(this._userId !== this._cardOwnerId){
       this._deleteBtn.remove()
-    }
-    this.isLiked()
-    
+    } 
+    //this.isLiked()
 
     return this._card;
   }

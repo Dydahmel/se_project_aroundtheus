@@ -52,10 +52,13 @@ function handleDeleteClick(cardId){
 
 function handleLikeClick(cardId){  
   if(this._likeBtn.classList.contains("card__like-button_enabled")){
-    api.addLike(cardId)    
+    api.addLike(cardId)
+    //this.isLiked()
+       
   }
   else{
-    api.removeLike(cardId)
+    api.removeLike(cardId);
+    
   }
 
 }
@@ -119,7 +122,7 @@ const popupDelete = new PopupDelete("#card__delete-modal");
 const popupImage = new PopupWithImage("#card__image-modal");
 
 const popupAddForm = new PopupWithForm("#profile__add-modal", (inputValues) => {
-  api.addNewCard(inputValues).then((data) => {renderCard(data); console.log(data)})  
+  api.addNewCard(inputValues).then((data) => renderCard(data))  
   popupAddForm.close();
 });
 
@@ -156,5 +159,3 @@ profileEditBtn.addEventListener("click", () => {
   popupEditForm.setInputValues(userInfo.getUserInfo());
 });
 
-
-console.log(userId)
