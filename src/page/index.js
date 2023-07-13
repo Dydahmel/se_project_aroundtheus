@@ -12,7 +12,9 @@ import "../page/index.css";
 
 const profileAddBtn = document.querySelector("#profile__add-button");
 const profileEditBtn = document.querySelector("#profile__edit-btn");
-const profileAvatarBtn = document.querySelector("#profile__avatar-btn")
+const profileAvatarBtn = document.querySelector("#profile__avatar-btn");
+const profileAvatar = document.querySelector(".profile__picture");
+
 //placeholder for section
 let cardSection;
 //placeholder for userInfo
@@ -76,14 +78,18 @@ const api = new Api({
 
 api.getUserInfo().then((res) => {
   //assign new value for userId
-  userId = res._id;  
+  userId = res._id;
+  //assign avatar
+  profileAvatar.src = res.avatar  
   //new UserInfo 
   userInfo = new UserInfo({
     title: ".profile__title",
     subtitle: ".profile__subtitle",
-  });
+  })  
   //setting userInfo from server
   userInfo.setUserInfo(res)
+}).catch((err) =>{
+  console.error(err)
 })
 
 // loaded cards from server
@@ -100,6 +106,9 @@ api.getInitialCards().then((res) => {
     config.cardSectionClass
   );
   cardSection.renderItems();
+})
+.catch((err) =>{
+  console.error(err)
 });
 
 
@@ -109,13 +118,19 @@ const popupEditForm = new PopupWithForm(
     userInfo.setUserInfo(inputValues);
     //updating userInfo (on?at?in) server
     api.updateUserInfo(inputValues)
-    popupEditForm.close();
+    .catch((err) =>{
+      console.error(err)
+    })
+    popupEditForm.close();    
   }
 );
 
-const popupAvatarFrom = new PopupWithForm("#profile__avatar_modal", (inputValues) => {
-  api.updateProfilePicture(inputValues)
+const popupAvatarFrom = new PopupWithForm("#profile__avatar_modal", (inputValues) => {  
+  api.updateProfilePicture(inputValues)  
   .then(popupAvatarFrom.close())
+  .catch((err) =>{
+    console.error(err)
+  })
 })
 
 const popupDelete = new PopupDelete("#card__delete-modal");
@@ -123,7 +138,11 @@ const popupDelete = new PopupDelete("#card__delete-modal");
 const popupImage = new PopupWithImage("#card__image-modal");
 
 const popupAddForm = new PopupWithForm("#profile__add-modal", (inputValues) => {
-  api.addNewCard(inputValues).then((data) => renderCard(data))  
+  api.addNewCard(inputValues)
+  .then((data) => renderCard(data))
+  .catch((err) =>{
+    console.error(err)
+  })  
   popupAddForm.close();
 });
 
