@@ -20,11 +20,20 @@
     <div class="page__content">
       <main class="content">
         <section class="profile page__section">
-          <img
+          <div class="profile__avatar_container">
+            <img
             src="<%=require('./images/jacques-cousteau.svg')%>"
             alt="Jacques-Cousteau photo"
             class="profile__picture"
-          />
+            />
+            <div class="profile__avatar-center">
+              <button 
+              type="button" 
+              class="profile__avatar_button" 
+              id="profile__avatar-btn"
+              ></button>
+            </div>
+          </div>
           <div class="profile__description">
             <h1 class="profile__title"></h1>
             <button
@@ -121,6 +130,27 @@
         </form>
       </div>
     </div>
+    <div class="modal" id="profile__avatar_modal">
+      <div class="modal__container">
+        <button class="modal__close-button" type="button"></button>
+        <p class="modal__heading">Change profile picture</p>
+        <form class="modal__form" name = "avatarForm">          
+          <input
+            type="url"
+            class="modal__subtitle modal__input"
+            placeholder="Image URL"
+            name="link"
+            id="avatar__link-input"
+            required
+          />
+          <span
+            class="modal__input-type-error"
+            id="card__link-input-error"
+          ></span>
+          <button class="modal__save-button" type="submit"></button>
+        </form>
+      </div>
+    </div>
     <div class="modal" id="card__image-modal">
       <div class="modal__container modal__container_img">
         <button class="modal__close-button" type="button"></button>
@@ -141,11 +171,14 @@
         <img src=" " alt="" class="card__image" />
         <div class="card__description">
           <h2 class="card__title"></h2>
+          <div class="card__like_container">
           <button
             type="button"
             class="card__like-button"
             id="card_like-button"
           ></button>
+          <p class="card__like_counter"></p>
+        </div>
         </div>
       </li>
     </template>  

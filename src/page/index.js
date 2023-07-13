@@ -12,6 +12,7 @@ import "../page/index.css";
 
 const profileAddBtn = document.querySelector("#profile__add-button");
 const profileEditBtn = document.querySelector("#profile__edit-btn");
+const profileAvatarBtn = document.querySelector("#profile__avatar-btn")
 //placeholder for section
 let cardSection;
 //placeholder for userInfo
@@ -51,14 +52,11 @@ function handleDeleteClick(cardId){
 }
 
 function handleLikeClick(cardId){  
-  if(this._likeBtn.classList.contains("card__like-button_enabled")){
-    api.addLike(cardId)
-    //this.isLiked()
-       
+  if(this.isLiked()){
+    api.removeLike(cardId)
   }
   else{
-    api.removeLike(cardId);
-    
+    api.addLike(cardId)
   }
 
 }
@@ -115,7 +113,7 @@ const popupEditForm = new PopupWithForm(
   }
 );
 
-
+const popupAvatarFrom = new PopupWithForm("#profile__avatar_modal")
 
 const popupDelete = new PopupDelete("#card__delete-modal");
 
@@ -158,4 +156,5 @@ profileEditBtn.addEventListener("click", () => {
   popupEditForm.open();
   popupEditForm.setInputValues(userInfo.getUserInfo());
 });
+profileAvatarBtn.addEventListener("click", () => popupAvatarFrom.open())
 
