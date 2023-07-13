@@ -113,7 +113,10 @@ const popupEditForm = new PopupWithForm(
   }
 );
 
-const popupAvatarFrom = new PopupWithForm("#profile__avatar_modal")
+const popupAvatarFrom = new PopupWithForm("#profile__avatar_modal", (inputValues) => {
+  api.updateProfilePicture(inputValues)
+  .then(popupAvatarFrom.close())
+})
 
 const popupDelete = new PopupDelete("#card__delete-modal");
 
@@ -151,6 +154,7 @@ popupImage.setEventListeners();
 popupAddForm.setEventListeners();
 popupEditForm.setEventListeners();
 popupDelete.setEventListeners();
+popupAvatarFrom.setEventListeners();
 profileAddBtn.addEventListener("click", () => popupAddForm.open());
 profileEditBtn.addEventListener("click", () => {
   popupEditForm.open();
