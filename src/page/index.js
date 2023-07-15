@@ -55,13 +55,15 @@ function handleDeleteClick(cardId){
 
 function handleLikeClick(cardId){  
   if(this.isLiked()){
-    api.removeLike(cardId)
+    api.removeLike(cardId).then((res) => {this.updateLikesCounter(res.likes)})   
   }
   else{
-    api.addLike(cardId)
-  }
-
+    api.addLike(cardId).then((res) => {this.updateLikesCounter(res.likes)})  
+   
+  }  
 }
+
+
 
 
 
@@ -126,7 +128,10 @@ const popupEditForm = new PopupWithForm(
 );
 
 const popupAvatarFrom = new PopupWithForm("#profile__avatar_modal", (inputValues) => {  
-  api.updateProfilePicture(inputValues)  
+  api.updateProfilePicture(inputValues)
+  .then((res) => {
+    profileAvatar.src = res.avatar
+  } ) 
   .then(popupAvatarFrom.close())
   .catch((err) =>{
     console.error(err)
@@ -179,5 +184,7 @@ profileEditBtn.addEventListener("click", () => {
   popupEditForm.open();
   popupEditForm.setInputValues(userInfo.getUserInfo());
 });
-profileAvatarBtn.addEventListener("click", () => popupAvatarFrom.open())
+profileAvatarBtn.addEventListener("click", () => {
+  popupAvatarFrom.open();  
+})
 
