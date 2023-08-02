@@ -5,6 +5,12 @@ export default class Api {
 
     }
 
+    getAppInfo(){
+      return Promise.all([this.getInitialCards, this.getUserInfo] .then((res) =>{
+        console.log(res)
+      }))
+    }
+
     _checkResponse(res) {
         if (res.ok) {          
           return res.json();

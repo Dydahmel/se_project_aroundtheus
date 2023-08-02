@@ -50,8 +50,9 @@ export default class Card {
 
   }
 
-  updateLikesCounter(res){
-    this._likeCounter.textContent = res.length
+  updateLikesCounter(likes){
+    this._likeArr = likes;
+    this._renderLikesCounter()
   }
 
   removeCard() {
