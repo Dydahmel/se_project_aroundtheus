@@ -6,9 +6,9 @@ export default class Api {
     }
 
     getAppInfo(){
-      return Promise.all([this.getInitialCards, this.getUserInfo] .then((res) =>{
+      return Promise.all([this.getInitialCards, this.getUserInfo]) .then((res) =>{
         console.log(res)
-      }))
+      })
     }
 
     _checkResponse(res) {

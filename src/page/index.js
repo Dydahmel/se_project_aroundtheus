@@ -94,6 +94,8 @@ api.getUserInfo().then((res) => {
   console.error(err)
 })
 
+api.getAppInfo()
+
 // loaded cards from server
 api.getInitialCards().then((res) => {
   //new section
