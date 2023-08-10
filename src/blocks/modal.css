@@ -125,6 +125,10 @@
   padding: 36px;
 }
 
+.modal__saving-button{  
+  background-image: url(../images/Savig__button.png);  
+}
+
 .modal__close-button:hover {
   opacity: 0.6;
 }

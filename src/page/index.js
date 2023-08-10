@@ -78,42 +78,45 @@ const api = new Api({
   },
 });
 
-api.getUserInfo().then((res) => {
-  //assign new value for userId
-  userId = res._id;
-  //assign avatar
-  profileAvatar.src = res.avatar  
-  //new UserInfo 
-  userInfo = new UserInfo({
-    title: ".profile__title",
-    subtitle: ".profile__subtitle",
-  })  
-  //setting userInfo from server
-  userInfo.setUserInfo(res)
-}).catch((err) =>{
-  console.error(err)
-})
-
 api.getAppInfo()
-
-// loaded cards from server
-api.getInitialCards().then((res) => {
-  //new section
-  cardSection = new Section(
-    {
-      //using data from server
-      data: res,
-      renderer: (item) => {
-        renderCard(item);
-      },
-    },
-    config.cardSectionClass
-  );
-  cardSection.renderItems();
-})
-.catch((err) =>{
-  console.error(err)
+  .then(api.getUserInfo()
+    .then((res) => {
+      //assign new value for userId
+      userId = res._id;
+      //assign avatar
+      profileAvatar.src = res.avatar  
+      //new UserInfo 
+      userInfo = new UserInfo({
+        title: ".profile__title",
+        subtitle: ".profile__subtitle",
+      })  
+      //setting userInfo from server
+      userInfo.setUserInfo(res)
+    }))
+  .then(
+    // loaded cards from server
+    api.getInitialCards()
+      .then((res) => {
+      //new section
+      cardSection = new Section(
+        {
+          //using data from server
+          data: res,
+          renderer: (item) => {
+            renderCard(item);
+          },
+        },
+        config.cardSectionClass
+      );
+      cardSection.renderItems();
+  }))
+  .catch((err) =>{
+   console.error(err)
 });
+  
+
+
+
 
 
 const popupEditForm = new PopupWithForm(
@@ -130,14 +133,18 @@ const popupEditForm = new PopupWithForm(
 );
 
 const popupAvatarFrom = new PopupWithForm("#profile__avatar_modal", (inputValues) => {  
-  api.updateProfilePicture(inputValues)
+  popupAvatarFrom.toggleSaveBtn()  
+  api.updateProfilePicture(inputValues)  
   .then((res) => {
     profileAvatar.src = res.avatar
-  } ) 
-  .then(popupAvatarFrom.close())
+  }) 
+  //.then(profileAvatar.onload = popupAvatarFrom.close())
+  //.then(popupAvatarFrom.close())
+  //.then(popupAvatarFrom.toggleSaveBtn())
   .catch((err) =>{
     console.error(err)
   })
+  //.finally(popupAvatarFrom.close())
 })
 
 const popupDelete = new PopupDelete("#card__delete-modal");

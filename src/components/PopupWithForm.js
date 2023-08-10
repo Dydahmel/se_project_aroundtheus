@@ -6,7 +6,8 @@ export default class PopupWithForm extends Popup {
     super({ popupSelector });    
     this._popupFormEl = this._popupElement.querySelector(config.formSelector);
     this._inputEls = this._popupFormEl.querySelectorAll(config.inputSelector);
-    this._handleSubmit = handleSubmit;    
+    this._handleSubmit = handleSubmit;
+    this._submitBtn = this._popupFormEl.querySelector(config.submitButtonSelector);    
   }
   setInputValues(data) {
     this._inputEls.forEach((input) => {
@@ -29,6 +30,11 @@ export default class PopupWithForm extends Popup {
       inputValues[input.name] = input.value;
     });
     return inputValues;
+  }
+
+  toggleSaveBtn(){
+    this._submitBtn.classList.toggle("modal__saving-button")
+    console.log("its working")
   }
 
   setEventListeners() {
