@@ -122,13 +122,14 @@ api.getAppInfo()
 const popupEditForm = new PopupWithForm(
   "#profile__edit-modal",
   (inputValues) => {
+    popupEditForm.toggleSaveBtn()
     userInfo.setUserInfo(inputValues);
     //updating userInfo (on?at?in) server
     api.updateUserInfo(inputValues)
     .catch((err) =>{
       console.error(err)
     })
-    popupEditForm.close();    
+    .finally(() => {popupEditForm.close(); popupEditForm.toggleSaveBtn()});    
   }
 );
 
@@ -137,28 +138,30 @@ const popupAvatarFrom = new PopupWithForm("#profile__avatar_modal", (inputValues
   api.updateProfilePicture(inputValues)  
   .then((res) => {
     profileAvatar.src = res.avatar
-  }) 
-  //.then(profileAvatar.onload = popupAvatarFrom.close())
-  //.then(popupAvatarFrom.close())
-  //.then(popupAvatarFrom.toggleSaveBtn())
+  })   
   .catch((err) =>{
     console.error(err)
   })
-  //.finally(popupAvatarFrom.close())
+  .finally(() => {
+    popupAvatarFrom.close(); 
+    popupAvatarFrom.toggleSaveBtn()})
 })
 
-const popupDelete = new PopupDelete("#card__delete-modal");
-
-const popupImage = new PopupWithImage("#card__image-modal");
-
 const popupAddForm = new PopupWithForm("#profile__add-modal", (inputValues) => {
+  popupAddForm.toggleSaveBtn()
   api.addNewCard(inputValues)
   .then((data) => renderCard(data))
   .catch((err) =>{
     console.error(err)
   })  
-  popupAddForm.close();
+  .finally(() => {popupAddForm.toggleSaveBtn(); popupAddForm.close()})
 });
+
+const popupDelete = new PopupDelete("#card__delete-modal");
+
+const popupImage = new PopupWithImage("#card__image-modal");
+
+
 
 
 
