@@ -43,31 +43,27 @@ function handleImageClick(name, link) {
   popupImage.open(name, link);
 }
 
-function handleDeleteClick(cardId){  
-  popupDelete.open()
-  popupDelete.setSubmitAction( () =>{
-    api.deleteCard(cardId).then( () => {      
-      this.removeCard()
-      popupDelete.close()
-    })
-  })  
+function handleDeleteClick(cardId) {
+  popupDelete.open();
+  popupDelete.setSubmitAction(() => {
+    api.deleteCard(cardId).then(() => {
+      this.removeCard();
+      popupDelete.close();
+    });
+  });
 }
 
-function handleLikeClick(cardId){  
-  if(this.isLiked()){
-    api.removeLike(cardId).then((res) => {this.updateLikesCounter(res.likes)})   
+function handleLikeClick(cardId) {
+  if (this.isLiked()) {
+    api.removeLike(cardId).then((res) => {
+      this.updateLikesCounter(res.likes);
+    });
+  } else {
+    api.addLike(cardId).then((res) => {
+      this.updateLikesCounter(res.likes);
+    });
   }
-  else{
-    api.addLike(cardId).then((res) => {this.updateLikesCounter(res.likes)})  
-   
-  }  
 }
-
-
-
-
-
-
 
 //new inst of API(set options)
 const api = new Api({
@@ -78,25 +74,26 @@ const api = new Api({
   },
 });
 
-api.getAppInfo()
-  .then(api.getUserInfo()
-    .then((res) => {
+api
+  .getAppInfo()
+  .then(
+    api.getUserInfo().then((res) => {
       //assign new value for userId
       userId = res._id;
       //assign avatar
-      profileAvatar.src = res.avatar  
-      //new UserInfo 
+      profileAvatar.src = res.avatar;
+      //new UserInfo
       userInfo = new UserInfo({
         title: ".profile__title",
         subtitle: ".profile__subtitle",
-      })  
+      });
       //setting userInfo from server
-      userInfo.setUserInfo(res)
-    }))
+      userInfo.setUserInfo(res);
+    })
+  )
   .then(
     // loaded cards from server
-    api.getInitialCards()
-      .then((res) => {
+    api.getInitialCards().then((res) => {
       //new section
       cardSection = new Section(
         {
@@ -109,64 +106,66 @@ api.getAppInfo()
         config.cardSectionClass
       );
       cardSection.renderItems();
-  }))
-  .catch((err) =>{
-   console.error(err)
-});
-  
-
-
-
-
+    })
+  )
+  .catch((err) => {
+    console.error(err);
+  });
 
 const popupEditForm = new PopupWithForm(
   "#profile__edit-modal",
   (inputValues) => {
-    popupEditForm.toggleSaveBtn()
+    popupEditForm.toggleSaveBtn();
     userInfo.setUserInfo(inputValues);
     //updating userInfo (on?at?in) server
-    api.updateUserInfo(inputValues)
-    .catch((err) =>{
-      console.error(err)
-    })
-    .finally(() => {popupEditForm.close(); popupEditForm.toggleSaveBtn()});    
+    api
+      .updateUserInfo(inputValues)
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        popupEditForm.close();
+        popupEditForm.toggleSaveBtn();
+      });
   }
 );
 
-const popupAvatarFrom = new PopupWithForm("#profile__avatar_modal", (inputValues) => {  
-  popupAvatarFrom.toggleSaveBtn()  
-  api.updateProfilePicture(inputValues)  
-  .then((res) => {
-    profileAvatar.src = res.avatar
-  })   
-  .catch((err) =>{
-    console.error(err)
-  })
-  .finally(() => {
-    popupAvatarFrom.close(); 
-    popupAvatarFrom.toggleSaveBtn()})
-})
+const popupAvatarFrom = new PopupWithForm(
+  "#profile__avatar_modal",
+  (inputValues) => {
+    popupAvatarFrom.toggleSaveBtn();
+    api
+      .updateProfilePicture(inputValues)
+      .then((res) => {
+        profileAvatar.src = res.avatar;
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        popupAvatarFrom.close();
+        popupAvatarFrom.toggleSaveBtn();
+      });
+  }
+);
 
 const popupAddForm = new PopupWithForm("#profile__add-modal", (inputValues) => {
-  popupAddForm.toggleSaveBtn()
-  api.addNewCard(inputValues)
-  .then((data) => renderCard(data))
-  .catch((err) =>{
-    console.error(err)
-  })  
-  .finally(() => {popupAddForm.toggleSaveBtn(); popupAddForm.close()})
+  popupAddForm.toggleSaveBtn();
+  api
+    .addNewCard(inputValues)
+    .then((data) => renderCard(data))
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      popupAddForm.toggleSaveBtn();
+      popupAddForm.close();
+    });
 });
 
 const popupDelete = new PopupDelete("#card__delete-modal");
 
 const popupImage = new PopupWithImage("#card__image-modal");
-
-
-
-
-
-
-
 
 const formValidators = {};
 
@@ -197,6 +196,5 @@ profileEditBtn.addEventListener("click", () => {
   popupEditForm.setInputValues(userInfo.getUserInfo());
 });
 profileAvatarBtn.addEventListener("click", () => {
-  popupAvatarFrom.open();  
-})
-
+  popupAvatarFrom.open();
+});

@@ -3,11 +3,13 @@ import { config } from "../utils/constants.js";
 
 export default class PopupWithForm extends Popup {
   constructor(popupSelector, handleSubmit) {
-    super({ popupSelector });    
+    super({ popupSelector });
     this._popupFormEl = this._popupElement.querySelector(config.formSelector);
     this._inputEls = this._popupFormEl.querySelectorAll(config.inputSelector);
     this._handleSubmit = handleSubmit;
-    this._submitBtn = this._popupFormEl.querySelector(config.submitButtonSelector);    
+    this._submitBtn = this._popupFormEl.querySelector(
+      config.submitButtonSelector
+    );
   }
   setInputValues(data) {
     this._inputEls.forEach((input) => {
@@ -19,11 +21,11 @@ export default class PopupWithForm extends Popup {
   close() {
     super.close();
     this._popupFormEl.reset();
-  }  
+  }
 
   _getInputValues() {
     const inputValues = {};
-    //get all inputs    
+    //get all inputs
     //loop over all inputs
     this._inputEls.forEach((input) => {
       //assign inputs to empty object by name=value
@@ -32,9 +34,9 @@ export default class PopupWithForm extends Popup {
     return inputValues;
   }
 
-  toggleSaveBtn(){
-    this._submitBtn.classList.toggle("modal__saving-button")
-    console.log("its working")
+  toggleSaveBtn() {
+    this._submitBtn.classList.toggle("modal__saving-button");
+    console.log("its working");
   }
 
   setEventListeners() {
