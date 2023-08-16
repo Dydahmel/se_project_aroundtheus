@@ -1,7 +1,7 @@
 //but why we cannot just use TAB indentation on code formatting? why it should be double space?
 import FormValidator from "../components/FormValidator.js";
 import Card from "../components/Card.js";
-import { config } from "../utils/constants.js";
+import { config, initialCards } from "../utils/constants.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -43,25 +43,40 @@ function handleImageClick(name, link) {
   popupImage.open(name, link);
 }
 
-function handleDeleteClick(cardId) {
+function handleDeleteClick(cardId, card) {
   popupDelete.open();
   popupDelete.setSubmitAction(() => {
-    api.deleteCard(cardId).then(() => {
-      this.removeCard();
-      popupDelete.close();
-    });
+    api
+      .deleteCard(cardId)
+      .then(() => {
+        card.removeCard();
+        popupDelete.close();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   });
 }
 
-function handleLikeClick(cardId) {
-  if (this.isLiked()) {
-    api.removeLike(cardId).then((res) => {
-      this.updateLikesCounter(res.likes);
-    });
+function handleLikeClick(cardId, card) {
+  if (card.isLiked()) {
+    api
+      .removeLike(cardId)
+      .then((res) => {
+        card.updateLikesCounter(res.likes);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   } else {
-    api.addLike(cardId).then((res) => {
-      this.updateLikesCounter(res.likes);
-    });
+    api
+      .addLike(cardId)
+      .then((res) => {
+        card.updateLikesCounter(res.likes);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 }
 
@@ -74,40 +89,28 @@ const api = new Api({
   },
 });
 
-api
-  .getAppInfo()
-  .then(
-    api.getUserInfo().then((res) => {
-      //assign new value for userId
-      userId = res._id;
-      //assign avatar
-      profileAvatar.src = res.avatar;
-      //new UserInfo
-      userInfo = new UserInfo({
-        title: ".profile__title",
-        subtitle: ".profile__subtitle",
-      });
-      //setting userInfo from server
-      userInfo.setUserInfo(res);
-    })
-  )
-  .then(
-    // loaded cards from server
-    api.getInitialCards().then((res) => {
-      //new section
-      cardSection = new Section(
-        {
-          //using data from server
-          data: res,
-          renderer: (item) => {
-            renderCard(item);
-          },
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, initialCards]) => {
+    userId = userData._id;
+    userInfo = new UserInfo({
+      title: ".profile__title",
+      subtitle: ".profile__subtitle",
+      avatar: ".profile__picture",
+    });
+    userInfo.setUserInfo(userData);
+    //new Section
+    cardSection = new Section(
+      {
+        //using data from server
+        data: initialCards,
+        renderer: (item) => {
+          renderCard(item);
         },
-        config.cardSectionClass
-      );
-      cardSection.renderItems();
-    })
-  )
+      },
+      config.cardSectionClass
+    );
+    cardSection.renderItems();
+  })
   .catch((err) => {
     console.error(err);
   });
@@ -115,17 +118,21 @@ api
 const popupEditForm = new PopupWithForm(
   "#profile__edit-modal",
   (inputValues) => {
-    popupEditForm.toggleSaveBtn();
-    userInfo.setUserInfo(inputValues);
+    popupEditForm.renderLoading(true);
     //updating userInfo (on?at?in) server
     api
       .updateUserInfo(inputValues)
+      .then((res) => {
+        userInfo.setUserInfo(res);
+      })
+      .then(() => {
+        popupEditForm.close();
+      })
       .catch((err) => {
         console.error(err);
       })
       .finally(() => {
-        popupEditForm.close();
-        popupEditForm.toggleSaveBtn();
+        popupEditForm.renderLoading(false);
       });
   }
 );
@@ -133,33 +140,37 @@ const popupEditForm = new PopupWithForm(
 const popupAvatarFrom = new PopupWithForm(
   "#profile__avatar_modal",
   (inputValues) => {
-    popupAvatarFrom.toggleSaveBtn();
+    popupAvatarFrom.renderLoading(true);
     api
       .updateProfilePicture(inputValues)
       .then((res) => {
         profileAvatar.src = res.avatar;
       })
+      .then(() => {
+        popupAvatarFrom.close();
+      })
       .catch((err) => {
         console.error(err);
       })
       .finally(() => {
-        popupAvatarFrom.close();
-        popupAvatarFrom.toggleSaveBtn();
+        popupAvatarFrom.renderLoading(false);
       });
   }
 );
 
 const popupAddForm = new PopupWithForm("#profile__add-modal", (inputValues) => {
-  popupAddForm.toggleSaveBtn();
+  popupAddForm.renderLoading(true);
   api
     .addNewCard(inputValues)
     .then((data) => renderCard(data))
+    .then(() => {
+      popupAddForm.close();
+    })
     .catch((err) => {
       console.error(err);
     })
     .finally(() => {
-      popupAddForm.toggleSaveBtn();
-      popupAddForm.close();
+      popupAddForm.renderLoading(false);
     });
 });
 

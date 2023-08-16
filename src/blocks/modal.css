@@ -111,23 +111,26 @@
 
 .modal__save-button {
   border: none;
-  background-color: transparent;
+  background-color: black;
   background-repeat: no-repeat;
   background-size: contain;
   margin-top: 18px;
-  background-image: url(../images/Save_btn_enablet.png);
   border-radius: 2px;
   height: 58px;
   cursor: pointer;
   transition: ease-in 0.2s;
   align-content: center;
   width: 100%;
-  padding: 36px;
+  color: #fff;
+  font-family: "Inter", arial, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: center;
+  line-height: 1.2;
 }
 
-.modal__saving-button {
-  background-image: url(../images/Savig__button.png);
-}
 
 .modal__close-button:hover {
   opacity: 0.6;
@@ -153,12 +156,11 @@
 }
 
 .modal__save-button-disabled {
-  background-image: url(../images/Save_btn_disabled.png);
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  color: #000;
+  background-color: transparent;
   cursor: default;
-}
-
-.modal__yes-button {
-  background-image: url(../images/YesBtn.png);
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 660px) {

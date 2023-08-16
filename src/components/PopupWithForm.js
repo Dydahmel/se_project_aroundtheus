@@ -10,12 +10,23 @@ export default class PopupWithForm extends Popup {
     this._submitBtn = this._popupFormEl.querySelector(
       config.submitButtonSelector
     );
+    // fix the initial button text only once in the constructor
+    this._submitBtnText = this._submitBtn.textContent
   }
   setInputValues(data) {
     this._inputEls.forEach((input) => {
       // here you insert the `value` by the `name` of the input
       input.value = data[input.name];
     });
+  }
+
+  renderLoading(isLoading, loadingText='Saving...') {
+    if (isLoading) {
+      this._submitBtn.textContent = loadingText;
+    } else {
+	// here we return back the initial text. So, you don’t need to bother yourself about it
+      this._submitBtn.textContent = this._submitBtnText;
+    }
   }
 
   close() {
@@ -33,12 +44,7 @@ export default class PopupWithForm extends Popup {
     });
     return inputValues;
   }
-
-  toggleSaveBtn() {
-    this._submitBtn.classList.toggle("modal__saving-button");
-    console.log("its working");
-  }
-
+ 
   setEventListeners() {
     super.setEventListeners();
     this._popupFormEl.addEventListener("submit", () => {
