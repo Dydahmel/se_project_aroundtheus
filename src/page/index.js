@@ -79,6 +79,54 @@ function handleLikeClick(cardId, card) {
       });
   }
 }
+// universal function for submit with request, popup instance and optional loading text
+function handleSubmit(request, popupInstance, loadingText = "Saving...") {
+  // here we change the button text
+  popupInstance.renderLoading(true, loadingText);
+  request()
+    .then(() => {
+      // We need to close only in `then`
+      popupInstance.close();
+    })
+    // we need to catch possible errors
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      popupInstance.renderLoading(false);
+    });
+}
+
+function handleProfileFormSubmit(inputValues, profilePopup) {
+  // we create a function that returns a promise
+  function makeRequest() {
+    // `return` lets us use a promise chain `then, catch, finally` inside `handleSubmit`
+    return api.updateUserInfo(inputValues).then((responce) => {
+      userInfo.setUserInfo(responce);
+    });
+  }
+  // Here we call the function passing the request, popup instance and if we need some other loading text we can pass it as the 3rd argument
+  handleSubmit(makeRequest, profilePopup);
+}
+
+function handleAvatarFormSubmit(inputValues, profilePopup) {
+  function makeRequest() {
+    //i've tried to get my avatar updated with the same api-method as i update userInfo, but it requiers "name" wich i dont recieve from input
+    return api.updateProfilePicture(inputValues).then((responce) => {
+      userInfo.setUserInfo(responce);
+    });
+  }
+  handleSubmit(makeRequest, profilePopup);
+}
+
+function handleCardFormSubmit(inputValues, profilePopup) {
+  function makeRequest() {
+    return api.addNewCard(inputValues).then((responce) => {
+      renderCard(responce);
+    });
+  }
+  handleSubmit(makeRequest, profilePopup);
+}
 
 //new inst of API(set options)
 const api = new Api({
@@ -118,60 +166,19 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
 const popupEditForm = new PopupWithForm(
   "#profile__edit-modal",
   (inputValues) => {
-    popupEditForm.renderLoading(true);
-    //updating userInfo (on?at?in) server
-    api
-      .updateUserInfo(inputValues)
-      .then((res) => {
-        userInfo.setUserInfo(res);
-      })
-      .then(() => {
-        popupEditForm.close();
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        popupEditForm.renderLoading(false);
-      });
+    handleProfileFormSubmit(inputValues, popupEditForm);
   }
 );
 
 const popupAvatarFrom = new PopupWithForm(
   "#profile__avatar_modal",
   (inputValues) => {
-    popupAvatarFrom.renderLoading(true);
-    api
-      .updateProfilePicture(inputValues)
-      .then((res) => {
-        profileAvatar.src = res.avatar;
-      })
-      .then(() => {
-        popupAvatarFrom.close();
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        popupAvatarFrom.renderLoading(false);
-      });
+    handleAvatarFormSubmit(inputValues, popupAvatarFrom);
   }
 );
 
 const popupAddForm = new PopupWithForm("#profile__add-modal", (inputValues) => {
-  popupAddForm.renderLoading(true);
-  api
-    .addNewCard(inputValues)
-    .then((data) => renderCard(data))
-    .then(() => {
-      popupAddForm.close();
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-    .finally(() => {
-      popupAddForm.renderLoading(false);
-    });
+  handleCardFormSubmit(inputValues, popupAddForm);
 });
 
 const popupDelete = new PopupDelete("#card__delete-modal");
