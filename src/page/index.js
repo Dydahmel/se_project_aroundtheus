@@ -1,7 +1,7 @@
 //but why we cannot just use TAB indentation on code formatting? why it should be double space?
 import FormValidator from "../components/FormValidator.js";
 import Card from "../components/Card.js";
-import { config } from "../utils/constants.js";
+import { config, initialCards } from "../utils/constants.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -43,31 +43,90 @@ function handleImageClick(name, link) {
   popupImage.open(name, link);
 }
 
-function handleDeleteClick(cardId){  
-  popupDelete.open()
-  popupDelete.setSubmitAction( () =>{
-    api.deleteCard(cardId).then( () => {      
-      this.removeCard()
-      popupDelete.close()
-    })
-  })  
+function handleDeleteClick(cardId, card) {
+  popupDelete.open();
+  popupDelete.setSubmitAction(() => {
+    api
+      .deleteCard(cardId)
+      .then(() => {
+        card.removeCard();
+        popupDelete.close();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  });
 }
 
-function handleLikeClick(cardId){  
-  if(this.isLiked()){
-    api.removeLike(cardId).then((res) => {this.updateLikesCounter(res.likes)})   
+function handleLikeClick(cardId, card) {
+  if (card.isLiked()) {
+    api
+      .removeLike(cardId)
+      .then((res) => {
+        card.updateLikesCounter(res.likes);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  } else {
+    api
+      .addLike(cardId)
+      .then((res) => {
+        card.updateLikesCounter(res.likes);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
-  else{
-    api.addLike(cardId).then((res) => {this.updateLikesCounter(res.likes)})  
-   
-  }  
+}
+// universal function for submit with request, popup instance and optional loading text
+function handleSubmit(request, popupInstance, loadingText = "Saving...") {
+  // here we change the button text
+  popupInstance.renderLoading(true, loadingText);
+  request()
+    .then(() => {
+      // We need to close only in `then`
+      popupInstance.close();
+    })
+    // we need to catch possible errors
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      popupInstance.renderLoading(false);
+    });
 }
 
+function handleProfileFormSubmit(inputValues, profilePopup) {
+  // we create a function that returns a promise
+  function makeRequest() {
+    // `return` lets us use a promise chain `then, catch, finally` inside `handleSubmit`
+    return api.updateUserInfo(inputValues).then((responce) => {
+      userInfo.setUserInfo(responce);
+    });
+  }
+  // Here we call the function passing the request, popup instance and if we need some other loading text we can pass it as the 3rd argument
+  handleSubmit(makeRequest, profilePopup);
+}
 
+function handleAvatarFormSubmit(inputValues, profilePopup) {
+  function makeRequest() {
+    //i've tried to get my avatar updated with the same api-method as i update userInfo, but it requiers "name" wich i dont recieve from input
+    return api.updateProfilePicture(inputValues).then((responce) => {
+      userInfo.setUserInfo(responce);
+    });
+  }
+  handleSubmit(makeRequest, profilePopup);
+}
 
-
-
-
+function handleCardFormSubmit(inputValues, profilePopup) {
+  function makeRequest() {
+    return api.addNewCard(inputValues).then((responce) => {
+      renderCard(responce);
+    });
+  }
+  handleSubmit(makeRequest, profilePopup);
+}
 
 //new inst of API(set options)
 const api = new Api({
@@ -78,95 +137,53 @@ const api = new Api({
   },
 });
 
-api.getAppInfo()
-  .then(api.getUserInfo()
-    .then((res) => {
-      //assign new value for userId
-      userId = res._id;
-      //assign avatar
-      profileAvatar.src = res.avatar  
-      //new UserInfo 
-      userInfo = new UserInfo({
-        title: ".profile__title",
-        subtitle: ".profile__subtitle",
-      })  
-      //setting userInfo from server
-      userInfo.setUserInfo(res)
-    }))
-  .then(
-    // loaded cards from server
-    api.getInitialCards()
-      .then((res) => {
-      //new section
-      cardSection = new Section(
-        {
-          //using data from server
-          data: res,
-          renderer: (item) => {
-            renderCard(item);
-          },
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, initialCards]) => {
+    userId = userData._id;
+    userInfo = new UserInfo({
+      title: ".profile__title",
+      subtitle: ".profile__subtitle",
+      avatar: ".profile__picture",
+    });
+    userInfo.setUserInfo(userData);
+    //new Section
+    cardSection = new Section(
+      {
+        //using data from server
+        data: initialCards,
+        renderer: (item) => {
+          renderCard(item);
         },
-        config.cardSectionClass
-      );
-      cardSection.renderItems();
-  }))
-  .catch((err) =>{
-   console.error(err)
-});
-  
-
-
-
-
+      },
+      config.cardSectionClass
+    );
+    cardSection.renderItems();
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 const popupEditForm = new PopupWithForm(
   "#profile__edit-modal",
   (inputValues) => {
-    popupEditForm.toggleSaveBtn()
-    userInfo.setUserInfo(inputValues);
-    //updating userInfo (on?at?in) server
-    api.updateUserInfo(inputValues)
-    .catch((err) =>{
-      console.error(err)
-    })
-    .finally(() => {popupEditForm.close(); popupEditForm.toggleSaveBtn()});    
+    handleProfileFormSubmit(inputValues, popupEditForm);
   }
 );
 
-const popupAvatarFrom = new PopupWithForm("#profile__avatar_modal", (inputValues) => {  
-  popupAvatarFrom.toggleSaveBtn()  
-  api.updateProfilePicture(inputValues)  
-  .then((res) => {
-    profileAvatar.src = res.avatar
-  })   
-  .catch((err) =>{
-    console.error(err)
-  })
-  .finally(() => {
-    popupAvatarFrom.close(); 
-    popupAvatarFrom.toggleSaveBtn()})
-})
+const popupAvatarFrom = new PopupWithForm(
+  "#profile__avatar_modal",
+  (inputValues) => {
+    handleAvatarFormSubmit(inputValues, popupAvatarFrom);
+  }
+);
 
 const popupAddForm = new PopupWithForm("#profile__add-modal", (inputValues) => {
-  popupAddForm.toggleSaveBtn()
-  api.addNewCard(inputValues)
-  .then((data) => renderCard(data))
-  .catch((err) =>{
-    console.error(err)
-  })  
-  .finally(() => {popupAddForm.toggleSaveBtn(); popupAddForm.close()})
+  handleCardFormSubmit(inputValues, popupAddForm);
 });
 
 const popupDelete = new PopupDelete("#card__delete-modal");
 
 const popupImage = new PopupWithImage("#card__image-modal");
-
-
-
-
-
-
-
 
 const formValidators = {};
 
@@ -197,6 +214,5 @@ profileEditBtn.addEventListener("click", () => {
   popupEditForm.setInputValues(userInfo.getUserInfo());
 });
 profileAvatarBtn.addEventListener("click", () => {
-  popupAvatarFrom.open();  
-})
-
+  popupAvatarFrom.open();
+});
